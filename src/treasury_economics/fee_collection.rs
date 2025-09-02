@@ -1,7 +1,7 @@
 //! DAO Treasury for managing UBI and welfare funds (economics interface only)
 //! 
 //! This is the economics calculation interface for treasury operations.
-//! The actual DAO governance logic is centralized in zhtp-consensus package.
+//! The actual DAO governance logic is centralized in lib-consensus package.
 
 use anyhow::Result;
 use serde::{Serialize, Deserialize};

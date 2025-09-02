@@ -32,6 +32,8 @@ pub mod supply;
 pub mod pricing;
 pub mod integration;
 pub mod testing;
+pub mod rewards;
+pub mod network_types;
 
 // Re-export main types and functions
 pub use types::*;
@@ -43,6 +45,7 @@ pub use distribution::*;
 pub use treasury_economics::*;
 pub use supply::{management, total_supply}; // Module-level exports to avoid conflicts
 pub use pricing::*;
+pub use rewards::*;
 
 /// Economic constants
 pub const DEFAULT_DAO_FEE_RATE: u64 = 200; // 2% in basis points

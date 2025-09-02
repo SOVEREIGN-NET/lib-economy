@@ -1,7 +1,7 @@
-//! DAO treasury economics (calculation interface only - governance in zhtp-consensus)
+//! DAO treasury economics (calculation interface only - governance in lib-consensus)
 //! 
 //! Provides economic calculation interfaces for DAO treasury operations
-//! while keeping governance logic centralized in the zhtp-consensus package.
+//! while keeping governance logic centralized in the lib-consensus package.
 
 pub mod fee_collection;
 pub mod treasury_calculations;

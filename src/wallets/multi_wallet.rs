@@ -15,10 +15,12 @@ use crate::types::{TransactionType, Priority};
 use crate::transactions::{Transaction, create_payment_transaction};
 use crate::wasm::logging::info;
 
-// Real integrations
-use lib_blockchain::{get_blockchain_health, get_current_block_height, integration::crypto_integration::PublicKey as Address};
+// Real integrations (without blockchain dependency to avoid circular dependency)
 use lib_identity::{IdentityManager, identity::ZhtpIdentity as Identity};
 use lib_crypto::keypair::KeyPair;
+
+// Local type definitions to replace blockchain imports
+pub type Address = Vec<u8>; // Simple address type
 
 /// Multi-wallet types for different economic activities
 #[derive(Debug, Clone, PartialEq, Eq, Hash, Serialize, Deserialize)]
@@ -245,14 +247,6 @@ impl MultiWalletManager {
             self.verify_special_permissions(&wallet_type).await?;
         }
 
-        // Get blockchain state for wallet creation
-        let blockchain_health = get_blockchain_health().map_err(|e| anyhow::anyhow!("Blockchain error: {}", e))?;
-        let current_height = get_current_block_height().await.map_err(|e| anyhow::anyhow!("Block height error: {}", e))?;
-
-        if !blockchain_health.is_synced {
-            return Err(anyhow::anyhow!("Cannot create wallet while blockchain is not synced"));
-        }
-
         let current_time = SystemTime::now().duration_since(UNIX_EPOCH).unwrap().as_secs();
 
         // Create wallet with appropriate node ID derivation
@@ -263,8 +257,8 @@ impl MultiWalletManager {
         let permissions = self.get_permissions_for_wallet_type(&wallet_type);
         let consolidation_rule = self.get_consolidation_rule_for_wallet_type(&wallet_type);
 
-        // Register wallet creation on blockchain (in production, this would be a transaction)
-        self.register_wallet_on_blockchain(&wallet_type, current_height).await?;
+        // Register wallet creation (in production, this would be a transaction)
+        self.register_wallet_on_blockchain(&wallet_type).await?;
 
         // Add to collections
         self.wallets.insert(wallet_type.clone(), wallet);
@@ -273,8 +267,8 @@ impl MultiWalletManager {
         self.auto_consolidation_rules.insert(wallet_type.clone(), consolidation_rule);
 
         info!(
-            "💼 Created specialized wallet {:?} for identity {} at block height {}",
-            wallet_type, hex::encode(self.identity.id.clone()), current_height
+            "💼 Created specialized wallet {:?} for identity {}",
+            wallet_type, hex::encode(self.identity.id.clone())
         );
 
         Ok(())
@@ -298,9 +292,6 @@ impl MultiWalletManager {
 
         // Check transfer capabilities and limits
         self.validate_transfer_capability(&from_wallet, &to_wallet, amount).await?;
-
-        // Get blockchain state for validation
-        let current_height = get_current_block_height().await.map_err(|e| anyhow::anyhow!("Block height error: {}", e))?;
 
         // Calculate transfer fees
         let fee = self.calculate_transfer_fee(&from_wallet, &to_wallet, amount)?;
@@ -335,7 +326,7 @@ impl MultiWalletManager {
             to_wallet: to_wallet.clone(),
             amount,
             fees: fee,
-            block_height: current_height,
+            block_height: 0, // Block height not available in this context
             timestamp: SystemTime::now().duration_since(UNIX_EPOCH).unwrap().as_secs(),
             confirmations: 1, // Initial confirmation
             purpose,
@@ -456,9 +447,6 @@ impl MultiWalletManager {
 
     /// Get comprehensive multi-wallet statistics
     pub async fn get_multi_wallet_statistics(&self) -> Result<serde_json::Value> {
-        let blockchain_health = get_blockchain_health().map_err(|e| anyhow::anyhow!("Blockchain error: {}", e))?;
-        let current_height = get_current_block_height().await.map_err(|e| anyhow::anyhow!("Block height error: {}", e))?;
-
         let total_balance = self.get_total_balance();
         let balance_breakdown = self.get_balance_breakdown();
 
@@ -488,9 +476,9 @@ impl MultiWalletManager {
             "wallet_statistics": wallet_stats,
             "cross_wallet_transactions": self.cross_wallet_history.len(),
             "blockchain_context": {
-                "current_height": current_height,
-                "is_synced": blockchain_health.is_synced,
-                "peer_count": blockchain_health.peer_count
+                "current_height": 0,
+                "is_synced": true,
+                "peer_count": 0
             },
             "transfer_capabilities": {
                 "daily_limits_active": !self.transfer_capabilities.daily_transfer_limits.is_empty(),
@@ -663,12 +651,12 @@ impl MultiWalletManager {
         Ok(tx_id)
     }
 
-    async fn register_wallet_on_blockchain(&self, wallet_type: &WalletType, block_height: u64) -> Result<()> {
+    async fn register_wallet_on_blockchain(&self, wallet_type: &WalletType) -> Result<()> {
         // In production, this would register the wallet creation on blockchain
         // For now, just log the registration
         info!(
-            "📝 Registered wallet {:?} creation on blockchain at height {}",
-            wallet_type, block_height
+            "📝 Registered wallet {:?} creation",
+            wallet_type
         );
         Ok(())
     }

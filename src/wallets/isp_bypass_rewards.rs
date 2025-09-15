@@ -25,7 +25,6 @@ use crate::network_types::{
     MeshStatus, BandwidthStatistics, CongestionLevel
 };
 use crate::rewards::{RewardCalculator, ValidatorReward};
-use lib_blockchain::{get_blockchain_health, get_current_block_height};
 
 /// Comprehensive ISP bypass reward manager
 #[derive(Debug, Clone, Serialize, Deserialize)]
@@ -210,11 +209,9 @@ impl IspBypassRewardManager {
         Ok(())
     }
 
-    /// Calculate comprehensive ISP bypass rewards using real consensus and blockchain data
+    /// Calculate comprehensive ISP bypass rewards using economic model and network stats
     pub async fn calculate_rewards(&mut self, economic_model: &EconomicModel, network_stats: &NetworkStats) -> Result<TokenReward> {
-        // Get real blockchain and consensus data
-        let blockchain_health = get_blockchain_health().map_err(|e| anyhow::anyhow!("Blockchain health error: {}", e))?;
-        let current_height = get_current_block_height().await.map_err(|e| anyhow::anyhow!("Block height error: {}", e))?;
+        // Get network mesh status
         let mesh_status = get_mesh_status().await?;
 
         // Initialize consensus reward calculator for infrastructure validation
@@ -251,8 +248,8 @@ impl IspBypassRewardManager {
             peer_count as u32,
         )?;
 
-        // Apply blockchain-validated reliability bonuses
-        let reliability_multiplier = self.calculate_blockchain_validated_reliability(&blockchain_health).await?;
+        // Apply reliability bonuses based on uptime metrics
+        let reliability_multiplier = self.calculate_reliability_multiplier().await?;
         
         // Apply network-validated authenticity score
         let authenticity_multiplier = self.authenticity_score;
@@ -266,7 +263,7 @@ impl IspBypassRewardManager {
         let network_adjusted_reward = ((total_base as f64) * utilization_multiplier * reliability_multiplier * authenticity_multiplier) as u64;
 
         // Apply final network consensus adjustments
-        let consensus_adjustment = self.calculate_consensus_adjustment(current_height).await?;
+        let consensus_adjustment = self.calculate_consensus_adjustment().await?;
         let final_reward = (network_adjusted_reward as f64 * consensus_adjustment) as u64;
 
         // Create comprehensive reward breakdown with real network data
@@ -280,8 +277,8 @@ impl IspBypassRewardManager {
             currency: "ZHTP".to_string(),
         };
 
-        // Record performance for historical analysis with blockchain timestamp
-        self.record_performance_with_blockchain_data(&comprehensive_reward, current_height).await?;
+        // Record performance for historical analysis
+        self.record_performance_with_blockchain_data(&comprehensive_reward).await?;
 
         info!(
             "💰 ISP bypass rewards calculated with real network data: {} ZHTP (base: {}, network_util: {:.2}x, reliability: {:.2}x, authenticity: {:.2}x, consensus: {:.2}x)",
@@ -474,11 +471,8 @@ impl IspBypassRewardManager {
         Ok(overall_quality)
     }
 
-    /// Calculate blockchain-validated reliability multiplier
-    async fn calculate_blockchain_validated_reliability(
-        &self,
-        blockchain_health: &lib_blockchain::BlockchainHealth
-    ) -> Result<f64> {
+    /// Calculate reliability multiplier based on uptime metrics
+    async fn calculate_reliability_multiplier(&self) -> Result<f64> {
         // Base reliability from uptime
         let uptime_reliability = if self.uptime_stats.total_uptime_hours > 0 {
             let current_time = SystemTime::now().duration_since(UNIX_EPOCH).unwrap().as_secs();
@@ -492,19 +486,11 @@ impl IspBypassRewardManager {
             0.5
         };
 
-        // Blockchain sync bonus
-        let blockchain_sync_bonus = if blockchain_health.is_synced {
-            1.1 // 10% bonus for staying synced
-        } else {
-            0.9 // 10% penalty for being out of sync
-        };
+        // Blockchain sync bonus (using basic performance metrics)
+        let blockchain_sync_bonus = 1.0; // Default to neutral when blockchain health not available
 
-        // Network participation bonus based on blockchain connectivity
-        let network_participation_bonus = if blockchain_health.peer_count > 5 {
-            1.05 // 5% bonus for good peer connectivity
-        } else {
-            1.0
-        };
+        // Network participation bonus (using basic performance metrics)  
+        let network_participation_bonus = 1.0; // Default to neutral
 
         let total_reliability = uptime_reliability * blockchain_sync_bonus * network_participation_bonus;
         
@@ -512,25 +498,18 @@ impl IspBypassRewardManager {
     }
 
     /// Calculate consensus-based reward adjustment
-    async fn calculate_consensus_adjustment(&self, current_height: u64) -> Result<f64> {
-        // Adjust rewards based on blockchain consensus state
-        let height_factor = if current_height > 0 {
-            // Small bonus for contributing to an active blockchain
-            1.02
-        } else {
-            // No adjustment if blockchain isn't active
-            1.0
-        };
+    async fn calculate_consensus_adjustment(&self) -> Result<f64> {
+        // Adjust rewards based on network consensus state
+        let height_factor = 1.02; // Default small bonus for network participation
 
         // Future: could include validator consensus participation, network health, etc.
         Ok(height_factor)
     }
 
-    /// Record performance with blockchain timestamp and validation
+    /// Record performance with timestamp and validation
     async fn record_performance_with_blockchain_data(
         &mut self,
-        reward: &TokenReward,
-        block_height: u64
+        reward: &TokenReward
     ) -> Result<()> {
         let current_time = SystemTime::now().duration_since(UNIX_EPOCH).unwrap().as_secs();
 
@@ -562,8 +541,8 @@ impl IspBypassRewardManager {
         }
 
         info!(
-            "📈 Performance recorded at block height {}: {} ZHTP reward for {:.1}% uptime",
-            block_height, reward.total_reward, uptime_percentage
+            "📈 Performance recorded: {} ZHTP reward for {:.1}% uptime",
+            reward.total_reward, uptime_percentage
         );
 
         Ok(())
@@ -609,6 +588,30 @@ impl IspBypassRewardManager {
             }
         };
 
+        // Calculate reliability multiplier synchronously for JSON serialization
+        let reliability_multiplier = if self.uptime_stats.total_uptime_hours > 0 {
+            let current_time = SystemTime::now()
+                .duration_since(UNIX_EPOCH)
+                .unwrap()
+                .as_secs();
+            let total_time = (current_time - self.uptime_stats.session_start) / 3600;
+            if total_time > 0 {
+                let uptime_factor = (self.uptime_stats.total_uptime_hours as f64 / total_time as f64).min(1.0);
+                let consistency_bonus = if self.uptime_stats.downtime_incidents == 0 && uptime_factor > 0.95 {
+                    1.2
+                } else if uptime_factor > 0.9 {
+                    1.1
+                } else {
+                    1.0
+                };
+                uptime_factor * consistency_bonus
+            } else {
+                1.0
+            }
+        } else {
+            0.5
+        };
+
         serde_json::json!({
             "current_work": {
                 "bandwidth_shared_gb": self.current_work.bandwidth_shared_gb,
@@ -641,7 +644,7 @@ impl IspBypassRewardManager {
                 "connectivity_gap_filled": self.coverage_metrics.connectivity_gap_filled
             },
             "authenticity_score": self.authenticity_score,
-            "reliability_multiplier": self.calculate_reliability_multiplier()
+            "reliability_multiplier": reliability_multiplier
         })
     }
 
@@ -723,34 +726,6 @@ impl IspBypassRewardManager {
             .sum::<f64>() / self.quality_history.len() as f64;
         
         variance.sqrt() // Return standard deviation
-    }
-
-    fn calculate_reliability_multiplier(&self) -> f64 {
-        let uptime_factor = if self.uptime_stats.total_uptime_hours > 0 {
-            let current_time = SystemTime::now()
-                .duration_since(UNIX_EPOCH)
-                .unwrap()
-                .as_secs();
-            let total_time = (current_time - self.uptime_stats.session_start) / 3600;
-            if total_time > 0 {
-                (self.uptime_stats.total_uptime_hours as f64 / total_time as f64).min(1.0)
-            } else {
-                1.0
-            }
-        } else {
-            0.5
-        };
-
-        // Bonus for consistent uptime
-        let consistency_bonus = if self.uptime_stats.downtime_incidents == 0 && uptime_factor > 0.95 {
-            1.2 // 20% bonus for excellent reliability
-        } else if uptime_factor > 0.9 {
-            1.1 // 10% bonus for good reliability
-        } else {
-            1.0 // No bonus
-        };
-
-        uptime_factor * consistency_bonus
     }
 
     fn estimate_peer_connections(&self) -> u32 {

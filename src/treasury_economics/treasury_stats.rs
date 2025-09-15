@@ -1,7 +1,7 @@
 //! DAO Treasury statistics and analytics system
 //! 
 //! Provides comprehensive treasury management, UBI distribution tracking,
-//! and financial analytics using real blockchain data and DAO governance integration.
+//! and financial analytics for the economics system.
 
 use anyhow::Result;
 use serde::{Serialize, Deserialize};
@@ -11,9 +11,6 @@ use std::time::{SystemTime, UNIX_EPOCH};
 use crate::models::TokenReward;
 use crate::types::{TransactionType, Priority};
 use crate::wasm::logging::info;
-
-// Real integrations
-use lib_blockchain::{get_blockchain_health, get_current_block_height, get_treasury_balance};
 use crate::network_types::{get_mesh_status, get_network_statistics};
 
 // Local stub functions to avoid circular dependencies with lib-consensus
@@ -375,18 +372,10 @@ pub struct TreasuryStatsManager {
 }
 
 impl TreasuryStatsManager {
-    /// Create new treasury statistics manager with blockchain integration
+    /// Create new treasury statistics manager
     pub async fn new() -> Result<Self> {
-        // Get initial blockchain state
-        let blockchain_health = get_blockchain_health().map_err(|e| anyhow::anyhow!("Blockchain error: {}", e))?;
-        let current_height = get_current_block_height().await.map_err(|e| anyhow::anyhow!("Block height error: {}", e))?;
-        
-        if !blockchain_health.is_synced {
-            return Err(anyhow::anyhow!("Cannot initialize treasury stats while blockchain is not synced"));
-        }
-
-        // Get treasury balance from blockchain
-        let total_treasury_balance = get_treasury_balance().map_err(|e| anyhow::anyhow!("Treasury balance error: {}", e))?;
+        // Initialize with default values - blockchain integration will happen at higher level
+        let total_treasury_balance = 0u64; // Default value, will be updated by integration layer
 
         // Initialize fund data with recommended allocations
         let mut fund_data = HashMap::new();
@@ -446,17 +435,9 @@ impl TreasuryStatsManager {
         Ok(manager)
     }
 
-    /// Update treasury statistics from blockchain data
-    pub async fn update_from_blockchain(&mut self) -> Result<()> {
-        let blockchain_health = get_blockchain_health().map_err(|e| anyhow::anyhow!("Blockchain error: {}", e))?;
-        
-        if !blockchain_health.is_synced {
-            return Err(anyhow::anyhow!("Cannot update while blockchain is not synced"));
-        }
-
+    /// Update treasury statistics with new data (blockchain integration handled externally)
+    pub async fn update_treasury_balance(&mut self, new_total_balance: u64) -> Result<()> {
         // Update total treasury balance
-        let new_total_balance = get_treasury_balance().map_err(|e| anyhow::anyhow!("Treasury balance error: {}", e))?;
-        
         if new_total_balance != self.total_treasury_balance {
             info!(
                 "💰 Treasury balance updated: {} -> {} ZHTP",

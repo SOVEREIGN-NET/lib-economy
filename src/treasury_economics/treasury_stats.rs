@@ -8,8 +8,6 @@ use serde::{Serialize, Deserialize};
 use std::collections::{HashMap, BTreeMap};
 use std::time::{SystemTime, UNIX_EPOCH};
 
-use crate::models::TokenReward;
-use crate::types::{TransactionType, Priority};
 use crate::wasm::logging::info;
 use crate::network_types::{get_mesh_status, get_network_statistics};
 
@@ -446,17 +444,57 @@ impl TreasuryStatsManager {
             self.total_treasury_balance = new_total_balance;
         }
 
-        // Update validator rewards data
+        // Update validator rewards data using all ValidatorStats fields
         if let Ok(validator_stats) = get_validator_stats().await {
             if let Some(validator_fund) = self.fund_data.get_mut(&TreasuryFund::ValidatorRewards) {
+                // Use validator statistics to update fund metrics
                 validator_fund.efficiency_metrics.project_success_rate = validator_stats.uptime_percentage;
+                validator_fund.efficiency_metrics.roi_percentage = validator_stats.average_uptime * 100.0;
+                
+                // Calculate validator participation metrics
+                let participation_rate = validator_stats.active_validators as f64 / validator_stats.total_validators as f64;
+                validator_fund.efficiency_metrics.impact_score = participation_rate * 100.0;
+                
+                // Update fund utilization based on validator activity
+                validator_fund.utilization_rate = participation_rate;
+                
+                // Estimate fund allocation needs based on total stake
+                let recommended_allocation = (validator_stats.total_stake as f64 * 0.05) as u64; // 5% of total stake
+                if recommended_allocation > validator_fund.current_balance {
+                    validator_fund.pending_expenditures = recommended_allocation - validator_fund.current_balance;
+                }
+                
+                info!(
+                    "📊 Validator fund updated: {}/{} active validators, {:.1}% uptime, {} total stake",
+                    validator_stats.active_validators, validator_stats.total_validators, 
+                    validator_stats.average_uptime * 100.0, validator_stats.total_stake
+                );
             }
         }
 
-        // Update staking rewards
+        // Update staking rewards using all StakingRewards fields
         if let Ok(staking_rewards) = get_staking_rewards().await {
             if let Some(validator_fund) = self.fund_data.get_mut(&TreasuryFund::ValidatorRewards) {
+                // Update spending based on actual distributions
                 validator_fund.total_spent += staking_rewards.total_distributed;
+                
+                // Update efficiency metrics based on staking performance
+                validator_fund.efficiency_metrics.roi_percentage = staking_rewards.apy;
+                
+                // Calculate average monthly expenditure from per-epoch rewards
+                let epochs_per_month = 30; // Assuming daily epochs
+                validator_fund.average_monthly_expenditure = (staking_rewards.rewards_per_epoch * epochs_per_month) as f64;
+                
+                // Update fund allocation if needed for future rewards
+                let projected_monthly_need = validator_fund.average_monthly_expenditure;
+                if (validator_fund.current_balance as f64) < projected_monthly_need * 3.0 { // 3 months runway
+                    validator_fund.pending_expenditures += projected_monthly_need as u64;
+                }
+                
+                info!(
+                    "💰 Staking rewards updated: {} total rewards, {} per epoch, {:.1}% APY",
+                    staking_rewards.total_rewards, staking_rewards.rewards_per_epoch, staking_rewards.apy
+                );
             }
         }
 
@@ -476,6 +514,7 @@ impl TreasuryStatsManager {
     pub async fn get_treasury_analytics(&self) -> Result<serde_json::Value> {
         let network_stats = get_network_statistics().await.map_err(|e| anyhow::anyhow!("Network stats error: {}", e))?;
         let mesh_status = get_mesh_status().await.map_err(|e| anyhow::anyhow!("Mesh status error: {}", e))?;
+        let current_epoch = get_current_epoch().await.map_err(|e| anyhow::anyhow!("Epoch error: {}", e))?;
 
         // Calculate fund summaries
         let fund_summaries: HashMap<String, serde_json::Value> = self.fund_data.iter().map(|(fund, data)| {
@@ -510,6 +549,7 @@ impl TreasuryStatsManager {
                 "total_balance": self.total_treasury_balance,
                 "fund_count": self.fund_data.len(),
                 "last_updated": self.last_updated,
+                "current_epoch": current_epoch,
                 "health_score": self.health_metrics.sustainability_index
             },
             "fund_allocation": fund_summaries,

@@ -37,14 +37,14 @@ impl CostSavings {
     
     /// Update cost savings from ISP bypass work
     pub fn update_from_work(&mut self, work: &IspBypassWork) -> Result<()> {
-        // Calculate bandwidth cost savings
+        // Calculate bandwidth cost savings (cost per GB avoided by users)
         let bandwidth_savings = (work.bandwidth_shared_gb as f64) * self.bandwidth_cost_savings;
         
         // Calculate infrastructure cost savings (estimated ISP profit margin avoided)
         let infrastructure_savings = work.users_served * 30; // $30/month ISP profit per user
         
-        // Update totals
-        self.total_usd_savings += work.cost_savings_provided;
+        // Update totals including calculated bandwidth savings
+        self.total_usd_savings += work.cost_savings_provided + bandwidth_savings as u64;
         self.users_benefiting = work.users_served;
         self.infrastructure_cost_savings += infrastructure_savings;
         

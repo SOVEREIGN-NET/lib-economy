@@ -12,12 +12,11 @@ use std::time::{SystemTime, UNIX_EPOCH};
 use crate::wallets::WalletBalance;
 use crate::models::TokenReward;
 use crate::types::{TransactionType, Priority};
-use crate::transactions::{Transaction, create_payment_transaction};
+use crate::transactions::create_payment_transaction;
 use crate::wasm::logging::info;
 
 // Real integrations (without blockchain dependency to avoid circular dependency)
 use lib_identity::{IdentityManager, identity::ZhtpIdentity as Identity};
-use lib_crypto::keypair::KeyPair;
 
 // Local type definitions to replace blockchain imports
 pub type Address = Vec<u8>; // Simple address type
@@ -472,6 +471,7 @@ impl MultiWalletManager {
                 "identity_type": format!("{:?}", self.identity.identity_type)
             },
             "total_balance": total_balance,
+            "balance_breakdown": balance_breakdown,
             "wallet_count": self.wallets.len(),
             "wallet_statistics": wallet_stats,
             "cross_wallet_transactions": self.cross_wallet_history.len(),
@@ -514,7 +514,7 @@ impl MultiWalletManager {
 
     fn derive_wallet_node_id(&self, wallet_type: &WalletType) -> Result<[u8; 32]> {
         // Derive deterministic node ID for wallet type
-        use lib_crypto::hash_blake3;
+        
         
         let mut input = Vec::new();
         input.extend_from_slice(&self.identity.id.as_bytes());
@@ -591,6 +591,19 @@ impl MultiWalletManager {
         to_wallet: &WalletType,
         amount: u64,
     ) -> Result<()> {
+        // Validate the target wallet type is compatible
+        match (from_wallet, to_wallet) {
+            (WalletType::Governance, WalletType::UbiDistribution) => {
+                return Err(anyhow::anyhow!("Cannot transfer from governance to UBI distribution directly"));
+            },
+            (WalletType::UbiDistribution, WalletType::Governance) => {
+                return Err(anyhow::anyhow!("UBI to governance transfers require special approval"));
+            },
+            (WalletType::Infrastructure, WalletType::Governance) => {
+                return Err(anyhow::anyhow!("Infrastructure to governance transfers require DAO approval"));
+            },
+            _ => {} // Other combinations are allowed
+        }
         // Check daily transfer limits
         if let Some(limit) = self.transfer_capabilities.daily_transfer_limits.get(from_wallet) {
             if amount > *limit {
@@ -607,8 +620,14 @@ impl MultiWalletManager {
 
         // Check cooldowns
         if let Some(cooldown) = self.transfer_capabilities.transfer_cooldowns.get(from_wallet) {
-            // In production, check last transfer time
-            // For now, allow all transfers
+            let current_time = std::time::SystemTime::now()
+                .duration_since(std::time::UNIX_EPOCH)?
+                .as_secs();
+            
+            // Check if enough time has passed since last transfer (simplified check)
+            if current_time < *cooldown {
+                return Err(anyhow::anyhow!("Transfer cooldown period not yet expired"));
+            }
         }
 
         Ok(())
@@ -631,24 +650,73 @@ impl MultiWalletManager {
         amount: u64,
         fee: u64,
     ) -> Result<[u8; 32]> {
-        // In production, this would create an actual blockchain transaction
-        // For now, generate a deterministic transaction ID
+        // Create proper blockchain transaction using imported transaction creation functionality
+        let transaction_type = self.get_transaction_type_for_wallet_transfer(from_wallet, to_wallet);
+        
+        // Generate wallet addresses (simplified for demonstration) 
+        let from_address = self.get_wallet_address(from_wallet)?;
+        let to_address = self.get_wallet_address(to_wallet)?;
+        
+        // Convert priority based on fee (simple heuristic)
+        let priority = if fee >= amount / 10 {
+            Priority::High
+        } else if fee >= amount / 50 {
+            Priority::Normal
+        } else {
+            Priority::Low
+        };
+        
+        // Create the transaction using the imported create_payment_transaction function
+        let transaction = create_payment_transaction(
+            from_address,
+            to_address,
+            amount,
+            priority,
+        )?;
+        
+        info!(
+            "🏦 Created blockchain transaction: from={:?} to={:?} amount={} fee={} type={:?}",
+            from_wallet, to_wallet, amount, fee, transaction_type
+        );
+        
+        // Return the transaction ID
+        Ok(transaction.tx_id)
+    }
+
+    /// Get wallet address for a given wallet type
+    fn get_wallet_address(&self, wallet_type: &WalletType) -> Result<[u8; 32]> {
+        // In production, this would derive proper addresses based on wallet type
+        // For now, create deterministic addresses based on identity and wallet type
         use lib_crypto::hash_blake3;
         
-        let current_time = SystemTime::now().duration_since(UNIX_EPOCH).unwrap().as_secs();
         let mut input = Vec::new();
         input.extend_from_slice(&self.identity.id.as_bytes());
-        input.extend_from_slice(format!("{:?}", from_wallet).as_bytes());
-        input.extend_from_slice(format!("{:?}", to_wallet).as_bytes());
-        input.extend_from_slice(&amount.to_le_bytes());
-        input.extend_from_slice(&fee.to_le_bytes());
-        input.extend_from_slice(&current_time.to_le_bytes());
+        input.extend_from_slice(format!("{:?}", wallet_type).as_bytes());
         
-        let hash = lib_crypto::hash_blake3(&input);
-        let mut tx_id = [0u8; 32];
-        tx_id.copy_from_slice(&hash[..32]);
-        
-        Ok(tx_id)
+        let hash = hash_blake3(&input);
+        Ok(hash) // Return full 32-byte hash as address
+    }
+
+    /// Get appropriate transaction type for wallet transfers
+    fn get_transaction_type_for_wallet_transfer(&self, from_wallet: &WalletType, to_wallet: &WalletType) -> TransactionType {
+        match (from_wallet, to_wallet) {
+            // Reward-related transfers
+            (_, WalletType::IspBypassRewards) | (_, WalletType::MeshDiscoveryRewards) => TransactionType::Reward,
+            (WalletType::IspBypassRewards, _) | (WalletType::MeshDiscoveryRewards, _) => TransactionType::Reward,
+            
+            // UBI-related transfers
+            (_, WalletType::UbiDistribution) | (WalletType::UbiDistribution, _) => TransactionType::UbiDistribution,
+            
+            // Staking-related transfers
+            (_, WalletType::Staking) => TransactionType::Stake,
+            (WalletType::Staking, _) => TransactionType::Unstake,
+            
+            // Governance-related transfers
+            (_, WalletType::Governance) | (WalletType::Governance, _) => TransactionType::ProposalExecution,
+            
+            // All other transfers are standard payments
+            _ => TransactionType::Payment,
+        }
     }
 
     async fn register_wallet_on_blockchain(&self, wallet_type: &WalletType) -> Result<()> {

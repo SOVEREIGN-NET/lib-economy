@@ -7,12 +7,10 @@ use anyhow::Result;
 use serde::{Serialize, Deserialize};
 use std::collections::{HashMap, BTreeMap};
 use std::time::{SystemTime, UNIX_EPOCH};
-use chrono::{DateTime, Utc, Datelike, Timelike};
+use chrono::{Datelike, Timelike};
 
 use crate::transactions::Transaction;
 use crate::types::{TransactionType, Priority};
-use crate::wallets::WalletBalance;
-use crate::models::TokenReward;
 use crate::wasm::logging::info;
 
 // Real integrations (avoiding blockchain circular dependency)

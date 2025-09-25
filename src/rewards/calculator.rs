@@ -3,7 +3,6 @@
 //! Provides reward calculation capabilities without dependencies on lib-consensus
 
 use std::collections::HashMap;
-use anyhow::Result;
 use crate::rewards::types::*;
 
 /// Reward calculation engine for economics

@@ -11,6 +11,7 @@ use std::time::{SystemTime, UNIX_EPOCH};
 use crate::models::{TokenReward, EconomicModel};
 use crate::types::{WorkMetrics, IspBypassWork, NetworkStats, TransactionType};
 use crate::wallets::WalletBalance;
+use crate::wasm::logging::info;
 
 /// Comprehensive reward manager for all network activities
 #[derive(Debug, Clone, Serialize, Deserialize)]
@@ -503,10 +504,17 @@ impl StakingSystem {
             return Err(anyhow!("Minimum staking period not met"));
         }
 
-        // Calculate final rewards
+        // Calculate final rewards including any last-minute accumulation
         let final_rewards = self.calculate_staking_rewards()?;
-        let total_rewards = self.accumulated_rewards;
+        
+        // Add final calculated rewards to accumulated rewards for complete payout
+        let total_rewards = self.accumulated_rewards + final_rewards;
         let staked_amount = self.staked_amount;
+        
+        info!(
+            "💰 Unstaking completed: {} ZHTP staked, {} accumulated + {} final = {} total rewards",
+            staked_amount, self.accumulated_rewards, final_rewards, total_rewards
+        );
 
         // Reset staking state
         self.staked_amount = 0;

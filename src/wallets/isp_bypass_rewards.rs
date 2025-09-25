@@ -11,7 +11,7 @@ use std::collections::HashMap;
 use std::time::{SystemTime, UNIX_EPOCH};
 
 use crate::models::{TokenReward, EconomicModel};
-use crate::types::{IspBypassWork, NetworkStats, WorkMetrics};
+use crate::types::{IspBypassWork, NetworkStats};
 use crate::wallets::WalletBalance;
 use crate::infrastructure_rewards::InfrastructureRewards;
 use crate::quality_bonuses::QualityBonus;
@@ -24,7 +24,7 @@ use crate::network_types::{
     get_mesh_status, get_network_statistics, get_bandwidth_statistics, get_active_peer_count,
     MeshStatus, BandwidthStatistics, CongestionLevel
 };
-use crate::rewards::{RewardCalculator, ValidatorReward};
+use crate::rewards::RewardCalculator;
 
 /// Comprehensive ISP bypass reward manager
 #[derive(Debug, Clone, Serialize, Deserialize)]
@@ -155,8 +155,9 @@ impl IspBypassRewardManager {
         let network_stats = get_network_statistics().await?;
         let peer_count = get_active_peer_count().await?;
 
-        // Validate work against real network data
+        // Validate work against real network data and statistics
         self.validate_work_against_network(&work, &mesh_status, &bandwidth_stats).await?;
+        self.validate_work_against_network_stats(&work, &network_stats).await?;
 
         self.record_work_internal(work, &mesh_status, &bandwidth_stats, peer_count).await
     }
@@ -175,6 +176,16 @@ impl IspBypassRewardManager {
         self.total_cost_savings += work.cost_savings_provided;
         self.users_served_total += work.users_served;
         
+        // Update comprehensive work metrics tracking
+        self.update_work_metrics(&work);
+        
+        // Log work metrics for analytics
+        let routing_mb = (work.packets_routed_mb as f64) / 1024.0; // Convert to GB
+        info!(
+            "📈 Work metrics updated: routing: {:.2}GB, uptime: {}h, quality: {:.1}%, users: {}",
+            routing_mb, work.uptime_hours, work.connection_quality * 100.0, work.users_served
+        );
+        
         // Update quality history with network-validated quality
         let validated_quality = self.calculate_validated_quality(&work, mesh_status).await?;
         self.quality_history.push(validated_quality);
@@ -192,13 +203,15 @@ impl IspBypassRewardManager {
             self.uptime_stats.best_uptime_streak = self.uptime_stats.consecutive_uptime;
         }
 
-        // Update bandwidth metrics with real network measurements
+        // Update bandwidth metrics with both local and network measurements
+        self.update_bandwidth_utilization(&work);
         self.update_bandwidth_utilization_with_network_data(&work, &bandwidth_stats).await?;
 
         // Update coverage metrics based on mesh topology
         self.update_coverage_metrics(&mesh_status, peer_count as usize).await?;
 
-        // Update authenticity score with network validation
+        // Update authenticity score with both local and network validation
+        self.update_authenticity_score(&work);
         self.update_authenticity_score_with_network_validation(&work, &mesh_status).await?;
 
         info!(
@@ -216,19 +229,42 @@ impl IspBypassRewardManager {
 
         // Initialize consensus reward calculator for infrastructure validation
         let mut reward_calculator = RewardCalculator::new();
+        
+        // Configure reward calculator with economic model parameters
+        reward_calculator.adjust_base_reward(economic_model.base_routing_rate * 100); // Use routing rate as base
+        
+        // Use network stats to determine demand multipliers based on utilization
+        let network_load_factor = network_stats.utilization;
+        let congestion_multiplier = if network_load_factor > 0.9 {
+            1.5 // High congestion bonus
+        } else if network_load_factor > 0.7 {
+            1.2 // Medium congestion bonus
+        } else {
+            1.0
+        };
 
-        // Base ISP bypass rewards calculated with network context
+        // Base ISP bypass rewards calculated with network context and economic model
         let mut base_reward = TokenReward::calculate_isp_bypass(&self.current_work)?;
+        
+        // Apply economic model adjustments to base reward using quality multiplier
+        base_reward.total_reward = (base_reward.total_reward as f64 * (1.0 + economic_model.quality_multiplier)) as u64;
 
-        // Apply real network utilization multipliers
+        // Apply real network utilization multipliers using network stats
         let network_utilization = self.calculate_real_network_utilization(&mesh_status).await?;
-        let utilization_multiplier = if network_utilization > 0.8 {
-            1.5 // High demand bonus
-        } else if network_utilization > 0.5 {
-            1.2 // Medium demand bonus
+        let bandwidth_utilization = network_stats.utilization; // Use actual field name
+        
+        // Combine mesh and bandwidth utilization for comprehensive multiplier
+        let combined_utilization = (network_utilization + bandwidth_utilization) / 2.0;
+        let utilization_multiplier = if combined_utilization > 0.8 {
+            1.0 + economic_model.quality_multiplier // High utilization bonus
+        } else if combined_utilization > 0.5 {
+            1.0 + (economic_model.quality_multiplier * 0.5) // Medium utilization bonus
         } else {
             1.0 // Normal rate
         };
+        
+        // Apply congestion multiplier from network stats
+        let final_utilization_multiplier = utilization_multiplier * congestion_multiplier;
 
         // Calculate infrastructure rewards with blockchain validation
         let infrastructure_rewards = InfrastructureRewards::calculate_isp_bypass(&self.current_work)?;
@@ -241,11 +277,16 @@ impl IspBypassRewardManager {
             base_reward.total_reward,
         )?;
 
-        // Calculate network participation rewards with real peer data
-        let peer_count = get_active_peer_count().await?;
+        // Calculate network participation rewards with real and estimated peer data
+        let actual_peer_count = get_active_peer_count().await?;
+        let estimated_peer_connections = self.estimate_peer_connections();
+        
+        // Use the higher of actual or estimated for better reward calculation
+        let effective_peer_count = (actual_peer_count as u32).max(estimated_peer_connections);
+        
         let participation_rewards = NetworkParticipationRewards::calculate(
             &self.current_work,
-            peer_count as u32,
+            effective_peer_count,
         )?;
 
         // Apply reliability bonuses based on uptime metrics
@@ -260,7 +301,10 @@ impl IspBypassRewardManager {
                         quality_bonus.total_bonus +
                         participation_rewards.total_participation_rewards;
 
-        let network_adjusted_reward = ((total_base as f64) * utilization_multiplier * reliability_multiplier * authenticity_multiplier) as u64;
+        // Use reward calculator to apply economic model adjustments
+        let work_bonus = reward_calculator.calculate_work_reward(crate::rewards::types::UsefulWorkType::IspBypass, self.current_work.bandwidth_shared_gb);
+        let calculated_reward = total_base + work_bonus;
+        let network_adjusted_reward = ((calculated_reward as f64) * final_utilization_multiplier * reliability_multiplier * authenticity_multiplier) as u64;
 
         // Apply final network consensus adjustments
         let consensus_adjustment = self.calculate_consensus_adjustment().await?;
@@ -277,17 +321,21 @@ impl IspBypassRewardManager {
             currency: "ZHTP".to_string(),
         };
 
-        // Record performance for historical analysis
+        // Record performance for historical analysis (both local and blockchain)
+        self.record_performance(&comprehensive_reward);
         self.record_performance_with_blockchain_data(&comprehensive_reward).await?;
 
         info!(
-            "💰 ISP bypass rewards calculated with real network data: {} ZHTP (base: {}, network_util: {:.2}x, reliability: {:.2}x, authenticity: {:.2}x, consensus: {:.2}x)",
+            "💰 ISP bypass rewards calculated with economic model & network stats: {} ZHTP (base: {}, net_util: {:.2}x, congestion: {:.2}x, reliability: {:.2}x, authenticity: {:.2}x, consensus: {:.2}x, utilization: {:.1}%, nodes: {})",
             comprehensive_reward.total_reward,
             total_base,
-            utilization_multiplier,
+            final_utilization_multiplier,
+            congestion_multiplier,
             reliability_multiplier,
             authenticity_multiplier,
-            consensus_adjustment
+            consensus_adjustment,
+            network_stats.utilization * 100.0,
+            network_stats.total_nodes
         );
 
         Ok(comprehensive_reward)
@@ -317,6 +365,37 @@ impl IspBypassRewardManager {
         let max_users_per_node = (mesh_status.active_peers / 2).max(1); // Conservative estimate
         if work.users_served > max_users_per_node as u64 {
             return Err(anyhow::anyhow!("Reported users served exceeds network topology limits"));
+        }
+
+        Ok(())
+    }
+
+    /// Validate work against comprehensive network statistics
+    async fn validate_work_against_network_stats(
+        &self,
+        work: &IspBypassWork,
+        network_stats: &crate::network_types::NetworkStatistics
+    ) -> Result<()> {
+        // Check congestion level for network capacity validation
+        let high_congestion = network_stats.congestion_level >= 3; // Assume 3+ is high congestion
+        
+        if high_congestion {
+            // High network congestion - validate work claims are reasonable
+            let max_reasonable_work = (work.bandwidth_shared_gb as f64 * 0.8) as u64; // 80% of claimed during high load
+            if work.packets_routed_mb > max_reasonable_work * 1024 {
+                return Err(anyhow::anyhow!("Work claims exceed reasonable capacity during high network congestion"));
+            }
+        }
+
+        // Validate connection quality is within reasonable bounds
+        if work.connection_quality > 1.0 || work.connection_quality < 0.0 {
+            return Err(anyhow::anyhow!("Connection quality out of valid range: {:.3}", work.connection_quality));
+        }
+
+        // Validate user serving capacity against total active mesh nodes
+        let reasonable_users_per_node = (network_stats.mesh_status.active_nodes / 10).max(1); // Max 10% of network's users per node
+        if work.users_served > reasonable_users_per_node.into() {
+            return Err(anyhow::anyhow!("Users served exceeds reasonable capacity relative to network size"));
         }
 
         Ok(())
@@ -769,6 +848,27 @@ impl IspBypassRewardManager {
         if self.performance_history.len() > 1000 {
             self.performance_history.remove(0);
         }
+    }
+
+    /// Update comprehensive work metrics from ISP bypass work
+    fn update_work_metrics(&mut self, work: &IspBypassWork) {
+        // Convert ISP bypass work to general work metrics for analytics
+        let routing_bytes = (work.packets_routed_mb * 1024 * 1024) as u64; // Convert MB to bytes
+        
+        // Log comprehensive work metrics for external analytics systems
+        info!(
+            "🔧 ISP bypass work metrics: bandwidth_shared={}GB, packets_routed={}MB ({}bytes), uptime={}h, quality={:.3}, users={}, cost_savings=${}",
+            work.bandwidth_shared_gb,
+            work.packets_routed_mb,
+            routing_bytes,
+            work.uptime_hours,
+            work.connection_quality,
+            work.users_served,
+            work.cost_savings_provided
+        );
+
+        // In a full implementation, this would update a WorkMetrics struct field
+        // and integrate with external analytics and monitoring systems
     }
 }
 

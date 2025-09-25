@@ -9,7 +9,6 @@ use crate::models::EconomicModel;
 use crate::transactions::Transaction;
 use crate::treasury_economics::DaoTreasury;
 use crate::wasm::logging::info;
-use std::collections::HashMap;
 
 /// Interface for blockchain economic events
 pub trait BlockchainEconomics {

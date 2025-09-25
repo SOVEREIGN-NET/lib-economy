@@ -1,5 +1,4 @@
 //! Supply management implementation
-use crate::types::*;
 
 /// Manages token supply based on post-scarcity economics
 pub struct SupplyManager {

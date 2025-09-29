@@ -30,7 +30,7 @@ pub mod distribution;
 pub mod treasury_economics;
 pub mod supply;
 pub mod pricing;
-pub mod integration;
+
 pub mod testing;
 pub mod rewards;
 pub mod network_types;

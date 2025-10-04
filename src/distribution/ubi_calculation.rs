@@ -27,6 +27,16 @@ pub fn calculate_total_ubi_distribution(
 ) -> u64 {
     ubi_per_citizen * citizen_count
 }
+/// Calculate dynamic UBI based on network growth and cost of living adjustment
+pub fn calculate_dynamic_ubi(
+    network_growth: f64,
+    cost_of_living_adjustment: f64,
+    base_ubi: u64
+) -> u64 {
+    let growth_multiplier = 1.0 + (network_growth * 0.1);
+    let cola_multiplier = 1.0 + cost_of_living_adjustment;
+    (base_ubi as f64 * growth_multiplier * cola_multiplier) as u64
+}
 
 /// Verify UBI eligibility for citizens
 pub fn verify_ubi_eligibility(citizens: &[IdentityId]) -> Vec<IdentityId> {

@@ -36,6 +36,15 @@ pub fn calculate_total_fee(tx_size: u64, amount: u64, priority: Priority) -> (u6
     
     (network_fee, dao_fee, total_fee)
 }
+/// Calculate dynamic fee based on base fee, network congestion, and priority multiplier
+pub fn calculate_dynamic_fee(
+    base_fee: u64,
+    network_congestion: f64,
+    priority_multiplier: f64
+) -> u64 {
+    let congestion_multiplier = 1.0 + (network_congestion * 0.5);
+    (base_fee as f64 * congestion_multiplier * priority_multiplier) as u64
+}
 
 /// Calculate fee with exemptions for UBI and welfare distributions
 pub fn calculate_fee_with_exemptions(

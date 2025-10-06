@@ -67,7 +67,7 @@ impl IspBypassIncentives {
         }
         
         info!(
-            "📊 Updated ISP bypass stats: {} GB shared, {} providers, ${} total savings",
+            "Updated ISP bypass stats: {} GB shared, {} providers, ${} total savings",
             self.total_bandwidth_shared, self.connectivity_providers, self.total_isp_cost_savings
         );
         

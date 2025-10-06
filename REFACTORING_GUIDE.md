@@ -13,11 +13,11 @@
 
 > **Detailed plan for separating concerns and moving components to appropriate modules**
 
-## 📋 **Overview**
+## **Overview**
 
 This document provides a comprehensive guide for refactoring the ZHTP Economics module to better align with the modular architecture principles. The goal is to move components to their appropriate specialized modules while keeping pure economic logic in the economics module.
 
-## 🎯 **Refactoring Principles**
+## **Refactoring Principles**
 
 1. **Single Responsibility**: Each module should handle its domain expertise
 2. **Loose Coupling**: Modules should communicate through well-defined interfaces
@@ -26,9 +26,9 @@ This document provides a comprehensive guide for refactoring the ZHTP Economics 
 
 ---
 
-# 🔄 **COMPONENTS TO MOVE**
+#  **COMPONENTS TO MOVE**
 
-## 🔐 **Move to `lib-crypto`**
+## **Move to `lib-crypto`**
 
 ### **Files to Move:**
 ```
@@ -103,7 +103,7 @@ pub trait ZkProofProvider {
 
 ---
 
-## ⛓️ **Move to `lib-blockchain`**
+## **Move to `lib-blockchain`**
 
 ### **Files to Move:**
 ```
@@ -152,7 +152,7 @@ pub fn validate_dao_fee_economic_compliance(transaction: &Transaction) -> Result
 
 ---
 
-## 🤝 **Move to `lib-consensus`**
+## **Move to `lib-consensus`**
 
 ### **Files to Move:**
 ```
@@ -197,7 +197,7 @@ pub trait ConsensusEconomics {
 
 ---
 
-## 🌐 **Move to `lib-network`**
+## **Move to `lib-network`**
 
 ### **Files to Move:**
 ```
@@ -245,7 +245,7 @@ pub trait NetworkMetricsProvider {
 
 ---
 
-## 📋 **Move to `lib-protocols`**
+## **Move to `lib-protocols`**
 
 ### **Code Patterns to Extract:**
 ```rust
@@ -277,7 +277,7 @@ pub trait ProtocolEconomics {
 
 ---
 
-## 🆔 **Move to `lib-identity`**
+## **Move to `lib-identity`**
 
 ### **Files to Move:**
 ```
@@ -318,72 +318,72 @@ pub trait IdentityEconomics {
 
 # 🏠 **WHAT TO KEEP IN ECONOMICS**
 
-## ✅ **Core Economic Logic (KEEP)**
+## **Core Economic Logic (KEEP)**
 
 ### **Pure Economic Calculation Files:**
 ```
-src/models/economic_model.rs                ✅ KEEP - Core economic formulas
-src/models/fee_calculation.rs               ✅ KEEP - Fee calculation algorithms
-src/models/reward_adjustments.rs            ✅ KEEP - Reward adjustment logic
-src/models/supply_management.rs             ✅ KEEP - Token supply economics
-src/models/anti_speculation.rs              ✅ KEEP - Anti-speculation mechanics
+src/models/economic_model.rs                KEEP - Core economic formulas
+src/models/fee_calculation.rs               KEEP - Fee calculation algorithms
+src/models/reward_adjustments.rs            KEEP - Reward adjustment logic
+src/models/supply_management.rs             KEEP - Token supply economics
+src/models/anti_speculation.rs              KEEP - Anti-speculation mechanics
 
-src/incentives/cost_savings.rs              ✅ KEEP - Economic cost analysis
-src/incentives/infrastructure_rewards.rs    ✅ KEEP - Infrastructure economics
-src/incentives/quality_bonuses.rs           ✅ KEEP - Quality-based economics
-src/incentives/network_participation.rs     ✅ KEEP - Participation economics
+src/incentives/cost_savings.rs              KEEP - Economic cost analysis
+src/incentives/infrastructure_rewards.rs    KEEP - Infrastructure economics
+src/incentives/quality_bonuses.rs           KEEP - Quality-based economics
+src/incentives/network_participation.rs     KEEP - Participation economics
 
-src/distribution/ubi_calculation.rs         ✅ KEEP - UBI calculation logic
-src/distribution/ubi_distribution.rs        ✅ KEEP - UBI distribution mechanics
-src/distribution/welfare_funding.rs         ✅ KEEP - Welfare economics
-src/distribution/reward_distribution.rs     ✅ KEEP - General reward distribution
-src/distribution/automated_payouts.rs       ✅ KEEP - Automated payout logic
+src/distribution/ubi_calculation.rs         KEEP - UBI calculation logic
+src/distribution/ubi_distribution.rs        KEEP - UBI distribution mechanics
+src/distribution/welfare_funding.rs         KEEP - Welfare economics
+src/distribution/reward_distribution.rs     KEEP - General reward distribution
+src/distribution/automated_payouts.rs       KEEP - Automated payout logic
 
-src/treasury_economics/fee_collection.rs    ✅ KEEP - Economic fee collection
-src/treasury_economics/treasury_calculations.rs ✅ KEEP - Treasury economics
-src/treasury_economics/treasury_stats.rs    ✅ KEEP - Economic statistics
-src/treasury_economics/welfare_economics.rs ✅ KEEP - Welfare economics
+src/treasury_economics/fee_collection.rs    KEEP - Economic fee collection
+src/treasury_economics/treasury_calculations.rs KEEP - Treasury economics
+src/treasury_economics/treasury_stats.rs    KEEP - Economic statistics
+src/treasury_economics/welfare_economics.rs KEEP - Welfare economics
 ```
 
 ### **Economic Coordination Files:**
 ```
-src/integration/blockchain_integration.rs   ✅ KEEP - Economic blockchain interface
-src/integration/network_integration.rs      ✅ KEEP - Economic network interface
-src/integration/ (all interface files)      ✅ KEEP - Coordination interfaces
+src/integration/blockchain_integration.rs   KEEP - Economic blockchain interface
+src/integration/network_integration.rs      KEEP - Economic network interface
+src/integration/ (all interface files)      KEEP - Coordination interfaces
 
-src/pricing/dynamic_pricing.rs              ✅ KEEP - Economic pricing models
-src/pricing/market_pricing.rs               ✅ KEEP - Market-based pricing
+src/pricing/dynamic_pricing.rs              KEEP - Economic pricing models
+src/pricing/market_pricing.rs               KEEP - Market-based pricing
 
-src/supply/management.rs                    ✅ KEEP - Supply management logic
-src/supply/total_supply.rs                  ✅ KEEP - Supply tracking
+src/supply/management.rs                    KEEP - Supply management logic
+src/supply/total_supply.rs                  KEEP - Supply tracking
 
-src/rewards/calculator.rs                   ✅ KEEP - Reward calculation engine
-src/rewards/reward_calculator.rs            ✅ KEEP - Economic reward logic
-src/rewards/consensus_stats.rs              ✅ KEEP - Economic consensus data
-src/rewards/types.rs                        ✅ KEEP - Economic reward types
+src/rewards/calculator.rs                   KEEP - Reward calculation engine
+src/rewards/reward_calculator.rs            KEEP - Economic reward logic
+src/rewards/consensus_stats.rs              KEEP - Economic consensus data
+src/rewards/types.rs                        KEEP - Economic reward types
 ```
 
 ### **Economic Wallet Logic:**
 ```
-src/wallets/wallet_balance.rs               ✅ KEEP - Economic balance tracking
-src/wallets/reward_management.rs            ✅ KEEP - Economic reward management
-src/wallets/transaction_history.rs          ✅ KEEP - Economic transaction history
-src/wallets/isp_bypass_rewards.rs           ✅ KEEP - ISP bypass economics
+src/wallets/wallet_balance.rs               KEEP - Economic balance tracking
+src/wallets/reward_management.rs            KEEP - Economic reward management
+src/wallets/transaction_history.rs          KEEP - Economic transaction history
+src/wallets/isp_bypass_rewards.rs           KEEP - ISP bypass economics
 ```
 
 ### **Economic Types and Testing:**
 ```
-src/types/priority.rs                       ✅ KEEP - Economic priority levels
-src/types/work_metrics.rs                   ✅ KEEP - Economic work measurement
-src/types/network_stats.rs                  ✅ KEEP - Economic network analysis
+src/types/priority.rs                       KEEP - Economic priority levels
+src/types/work_metrics.rs                   KEEP - Economic work measurement
+src/types/network_stats.rs                  KEEP - Economic network analysis
 
-src/testing/ (all files)                    ✅ KEEP - Economic testing utilities
-tests/ (all files)                          ✅ KEEP - Economic integration tests
+src/testing/ (all files)                    KEEP - Economic testing utilities
+tests/ (all files)                          KEEP - Economic integration tests
 ```
 
 ---
 
-# 🔧 **REFACTORING IMPLEMENTATION PLAN**
+# **REFACTORING IMPLEMENTATION PLAN**
 
 ## **Phase 1: Create Interfaces (Week 1)**
 
@@ -548,7 +548,7 @@ fn test_economic_calculation_performance() {
 
 ---
 
-# 📊 **VALIDATION CHECKLIST**
+# **VALIDATION CHECKLIST**
 
 ## **Pre-Refactoring Validation**
 - [ ] All existing tests pass
@@ -582,7 +582,7 @@ fn test_economic_calculation_performance() {
 
 ---
 
-# 🎯 **SUCCESS CRITERIA**
+# **SUCCESS CRITERIA**
 
 ## **Technical Goals**
 1. **Modular Architecture**: Clean separation of concerns

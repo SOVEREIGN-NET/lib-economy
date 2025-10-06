@@ -433,7 +433,7 @@ impl MultiWalletManager {
                         }
 
                         info!(
-                            "🔄 Auto-consolidated {} ZHTP from {:?} to {:?}",
+                            " Auto-consolidated {} ZHTP from {:?} to {:?}",
                             consolidation_amount, wallet_type, rule.target_wallet
                         );
                     }
@@ -723,7 +723,7 @@ impl MultiWalletManager {
         // In production, this would register the wallet creation on blockchain
         // For now, just log the registration
         info!(
-            "📝 Registered wallet {:?} creation",
+            "Registered wallet {:?} creation",
             wallet_type
         );
         Ok(())
@@ -736,7 +736,7 @@ impl MultiWalletManager {
                     if wallet.available_balance >= rule.minimum_balance {
                         // Trigger consolidation check on next cycle
                         info!(
-                            "💡 Auto-consolidation eligible for {:?} wallet (balance: {} >= minimum: {})",
+                            "Auto-consolidation eligible for {:?} wallet (balance: {} >= minimum: {})",
                             wallet_type, wallet.available_balance, rule.minimum_balance
                         );
                     }

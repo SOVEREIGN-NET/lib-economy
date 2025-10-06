@@ -74,7 +74,7 @@ impl RewardDistribution {
                 distributed_total += reward_share;
                 
                 info!(
-                    "💰 Distributed {} ZHTP infrastructure reward to participant",
+                    "Distributed {} ZHTP infrastructure reward to participant",
                     reward_share
                 );
             }
@@ -132,7 +132,7 @@ impl RewardDistribution {
                 distributed_total += reward_share;
                 
                 info!(
-                    "🌐 Distributed {} ZHTP ISP bypass reward to participant",
+                    "Distributed {} ZHTP ISP bypass reward to participant",
                     reward_share
                 );
             }
@@ -144,7 +144,7 @@ impl RewardDistribution {
         self.last_distribution = crate::wasm::compatibility::current_timestamp().unwrap_or(0);
         
         info!(
-            "🌐 Distributed {} ZHTP total ISP bypass rewards to {} participants",
+            "Distributed {} ZHTP total ISP bypass rewards to {} participants",
             distributed_total, participants.len()
         );
         
@@ -247,7 +247,7 @@ pub fn distribute_rewards(
     
     let stats = distribution.get_distribution_stats();
     info!(
-        "🎯 Completed reward distribution: {} ZHTP to {} participants",
+        "Completed reward distribution: {} ZHTP to {} participants",
         stats["total_rewards_distributed"], stats["participants_rewarded"]
     );
     

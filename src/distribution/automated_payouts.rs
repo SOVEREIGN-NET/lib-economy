@@ -92,7 +92,7 @@ impl AutomatedUBI {
         self.recipients.insert(citizen_id.clone(), wallet_address);
         
         info!(
-            "👤 Registered UBI recipient: {} -> {}",
+            "Registered UBI recipient: {} -> {}",
             citizen_id,
             hex::encode(wallet_address)
         );
@@ -114,7 +114,7 @@ impl AutomatedUBI {
         let ubi_per_citizen = treasury.calculate_ubi_per_citizen(total_recipients);
         
         if ubi_per_citizen == 0 {
-            info!("⚠️ No UBI funds available for distribution");
+            info!("No UBI funds available for distribution");
             return Ok(0);
         }
         
@@ -132,7 +132,7 @@ impl AutomatedUBI {
                 successful_distributions += 1;
                 
                 info!(
-                    "💰 Distributed {} ZHTP UBI to citizen {} (wallet: {})",
+                    "Distributed {} ZHTP UBI to citizen {} (wallet: {})",
                     ubi_per_citizen,
                     citizen_id,
                     hex::encode(wallet_address)
@@ -145,7 +145,7 @@ impl AutomatedUBI {
         self.schedule.process_payout()?;
         
         info!(
-            "🎯 Completed UBI distribution: {} ZHTP to {} recipients",
+            "Completed UBI distribution: {} ZHTP to {} recipients",
             total_distribution, successful_distributions
         );
         
@@ -310,7 +310,7 @@ pub fn process_automated_payouts(
     
     if ubi_distributed > 0 || infrastructure_distributed > 0 {
         info!(
-            "🚀 Automated payouts completed: {} UBI + {} infrastructure = {} total ZHTP",
+            " Automated payouts completed: {} UBI + {} infrastructure = {} total ZHTP",
             ubi_distributed, infrastructure_distributed, ubi_distributed + infrastructure_distributed
         );
     }

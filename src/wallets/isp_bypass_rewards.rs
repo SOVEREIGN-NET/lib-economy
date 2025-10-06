@@ -215,7 +215,7 @@ impl IspBypassRewardManager {
         self.update_authenticity_score_with_network_validation(&work, &mesh_status).await?;
 
         info!(
-            "📊 ISP bypass work recorded with network validation: {}GB bandwidth, {}MB routed, {} users served, {:.1}% validated quality, {} peers",
+            "ISP bypass work recorded with network validation: {}GB bandwidth, {}MB routed, {} users served, {:.1}% validated quality, {} peers",
             work.bandwidth_shared_gb, work.packets_routed_mb, work.users_served, validated_quality * 100.0, peer_count
         );
 
@@ -326,7 +326,7 @@ impl IspBypassRewardManager {
         self.record_performance_with_blockchain_data(&comprehensive_reward).await?;
 
         info!(
-            "💰 ISP bypass rewards calculated with economic model & network stats: {} ZHTP (base: {}, net_util: {:.2}x, congestion: {:.2}x, reliability: {:.2}x, authenticity: {:.2}x, consensus: {:.2}x, utilization: {:.1}%, nodes: {})",
+            "ISP bypass rewards calculated with economic model & network stats: {} ZHTP (base: {}, net_util: {:.2}x, congestion: {:.2}x, reliability: {:.2}x, authenticity: {:.2}x, consensus: {:.2}x, utilization: {:.1}%, nodes: {})",
             comprehensive_reward.total_reward,
             total_base,
             final_utilization_multiplier,
@@ -637,7 +637,7 @@ impl IspBypassRewardManager {
         distribution.distribute_isp_bypass_rewards(participants, total_reward_pool)?;
         
         info!(
-            "🎯 Distributed {} ZHTP in ISP bypass rewards to {} participants",
+            "Distributed {} ZHTP in ISP bypass rewards to {} participants",
             total_reward_pool, participants.len()
         );
 
@@ -731,7 +731,7 @@ impl IspBypassRewardManager {
     pub fn reset_work_period(&mut self) -> Result<()> {
         self.current_work = IspBypassWork::new();
         
-        info!("🔄 ISP bypass work period reset for next calculation cycle");
+        info!(" ISP bypass work period reset for next calculation cycle");
         Ok(())
     }
 
@@ -857,7 +857,7 @@ impl IspBypassRewardManager {
         
         // Log comprehensive work metrics for external analytics systems
         info!(
-            "🔧 ISP bypass work metrics: bandwidth_shared={}GB, packets_routed={}MB ({}bytes), uptime={}h, quality={:.3}, users={}, cost_savings=${}",
+            "ISP bypass work metrics: bandwidth_shared={}GB, packets_routed={}MB ({}bytes), uptime={}h, quality={:.3}, users={}, cost_savings=${}",
             work.bandwidth_shared_gb,
             work.packets_routed_mb,
             routing_bytes,
@@ -908,14 +908,14 @@ pub async fn batch_process_isp_bypass_rewards(
         total_rewards += reward.total_reward;
 
         info!(
-            "💰 ISP bypass rewards processed for node {}: {} ZHTP",
+            "ISP bypass rewards processed for node {}: {} ZHTP",
             hex::encode(node_id),
             reward.total_reward
         );
     }
 
     info!(
-        "🎯 Batch processed ISP bypass rewards: {} ZHTP total to {} providers",
+        "Batch processed ISP bypass rewards: {} ZHTP total to {} providers",
         total_rewards, providers.len()
     );
 

@@ -184,7 +184,7 @@ impl MeshDiscoveryRewardManager {
         self.update_discovery_work_metrics(&work);
 
         info!(
-            "🔍 Mesh discovery work recorded: {} peers discovered, {} requests handled, {:.1}% quality, {} topology improvements",
+            "Mesh discovery work recorded: {} peers discovered, {} requests handled, {:.1}% quality, {} topology improvements",
             work.peers_discovered, work.discovery_requests_handled, validated_quality * 100.0, work.topology_improvements
         );
 
@@ -317,7 +317,7 @@ impl MeshDiscoveryRewardManager {
                 wallet.add_reward(&reward)?;
 
                 info!(
-                    "🎯 Distributed {} ZHTP discovery reward to node {} (contribution score: {})",
+                    "Distributed {} ZHTP discovery reward to node {} (contribution score: {})",
                     reward_amount, hex::encode(node_id), score
                 );
             }
@@ -373,7 +373,7 @@ impl MeshDiscoveryRewardManager {
     pub async fn reset_discovery_period(&mut self) -> Result<()> {
         self.current_work = MeshDiscoveryWork::new();
         
-        info!("🔄 Mesh discovery work period reset for next calculation cycle");
+        info!(" Mesh discovery work period reset for next calculation cycle");
         Ok(())
     }
 
@@ -583,7 +583,7 @@ impl MeshDiscoveryRewardManager {
         
         // Log comprehensive discovery work metrics for external analytics systems
         info!(
-            "🔧 Mesh discovery work metrics: peers_discovered={}, requests_handled={}, routing_updates={}, topology_improvements={}, quality={:.3}, geo_diversity={:.3}, uptime={}h",
+            "Mesh discovery work metrics: peers_discovered={}, requests_handled={}, routing_updates={}, topology_improvements={}, quality={:.3}, geo_diversity={:.3}, uptime={}h",
             work.peers_discovered,
             work.discovery_requests_handled,
             work.routing_updates,

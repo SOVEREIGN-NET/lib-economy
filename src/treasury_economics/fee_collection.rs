@@ -107,7 +107,7 @@ impl DaoTreasury {
         self.last_ubi_distribution = timestamp;
         
         info!(
-            "💰 Recorded UBI distribution: {} ZHTP to citizens, remaining allocated: {}",
+            "Recorded UBI distribution: {} ZHTP to citizens, remaining allocated: {}",
             amount, self.ubi_allocated
         );
         

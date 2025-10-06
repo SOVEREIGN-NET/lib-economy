@@ -26,7 +26,7 @@ pub fn adjust_rates_for_utilization(
     let new_compute_rate = (current_compute_rate * adjustment_multiplier) / 100;
     
     info!(
-        "📊 Network utilization adjustment: {}% -> rates: routing={}, storage={}, compute={}",
+        "Network utilization adjustment: {}% -> rates: routing={}, storage={}, compute={}",
         adjustment_multiplier, new_routing_rate, new_storage_rate, new_compute_rate
     );
     

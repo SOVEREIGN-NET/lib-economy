@@ -65,7 +65,7 @@ impl WalletBalance {
         self.pending_rewards = 0;
         
         if claimed > 0 {
-            info!("💰 Claimed {} ZHTP tokens from infrastructure services", claimed);
+            info!("Claimed {} ZHTP tokens from infrastructure services", claimed);
         }
         
         Ok(claimed)

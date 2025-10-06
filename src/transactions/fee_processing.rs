@@ -9,7 +9,7 @@ use crate::wasm::logging::info;
 pub fn process_network_fees(total_fees: u64) -> Result<u64> {
     // Network fees go to infrastructure providers (routing/storage/compute)
     info!(
-        "💰 Processed {} ZHTP tokens in network fees - distributed to infrastructure providers", 
+        "Processed {} ZHTP tokens in network fees - distributed to infrastructure providers", 
         total_fees
     );
     

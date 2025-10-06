@@ -146,7 +146,7 @@ impl BlockchainIntegration {
             self.total_processed += 1;
             
             info!(
-                "✅ Confirmed economic transaction at block {}: {} ZHTP value",
+                "Confirmed economic transaction at block {}: {} ZHTP value",
                 block_height,
                 confirmed_data.total_value()
             );
@@ -268,7 +268,7 @@ impl BlockchainEconomics for BlockchainIntegration {
         self.economic_model.mint_operational_tokens(reward, "ISP bypass reward")?;
         
         info!(
-            "🌐 Processed {} ZHTP ISP bypass reward for participant: {}",
+            "Processed {} ZHTP ISP bypass reward for participant: {}",
             reward, participant_id
         );
         
@@ -311,7 +311,7 @@ pub fn process_blockchain_economic_events(
             "infrastructure_reward" => integration.handle_infrastructure_rewards(entity_id, *amount)?,
             "isp_bypass_reward" => integration.process_isp_bypass_rewards(entity_id, *amount)?,
             _ => {
-                info!("⚠️ Unknown economic event type: {}", event_type);
+                info!("Unknown economic event type: {}", event_type);
             }
         }
     }

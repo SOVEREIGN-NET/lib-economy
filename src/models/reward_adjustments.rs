@@ -81,7 +81,7 @@ pub fn adjust_rewards_for_network_conditions(
     
     if capped_multiplier != 100 {
         info!(
-            "🔧 Applied {}% reward adjustment based on network conditions",
+            "Applied {}% reward adjustment based on network conditions",
             capped_multiplier
         );
     }

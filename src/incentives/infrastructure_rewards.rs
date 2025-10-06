@@ -38,7 +38,7 @@ impl InfrastructureRewards {
         let total_infrastructure_rewards = routing_rewards + storage_rewards + compute_rewards;
         
         info!(
-            "💰 Infrastructure rewards calculated: routing={} ZHTP, storage={} ZHTP, compute={} ZHTP, total={} ZHTP",
+            "Infrastructure rewards calculated: routing={} ZHTP, storage={} ZHTP, compute={} ZHTP, total={} ZHTP",
             routing_rewards, storage_rewards, compute_rewards, total_infrastructure_rewards
         );
         
@@ -76,7 +76,7 @@ impl InfrastructureRewards {
         let total_with_quality = ((base_total as f64) * quality_multiplier) as u64;
         
         info!(
-            "🌐 ISP bypass rewards: bandwidth={}GB ({}ZHTP), routing={}MB ({}ZHTP), uptime={}h ({}ZHTP), quality={:.1}x, total={} ZHTP",
+            "ISP bypass rewards: bandwidth={}GB ({}ZHTP), routing={}MB ({}ZHTP), uptime={}h ({}ZHTP), quality={:.1}x, total={} ZHTP",
             work.bandwidth_shared_gb, bandwidth_reward,
             work.packets_routed_mb, routing_reward,
             work.uptime_hours, uptime_reward,
@@ -113,7 +113,7 @@ impl InfrastructureRewards {
         
         if scaling_multiplier != 1.0 {
             info!(
-                "📊 Applied infrastructure scaling: {:.1}x multiplier due to network load {:.1}%",
+                "Applied infrastructure scaling: {:.1}x multiplier due to network load {:.1}%",
                 scaling_multiplier, network_load_factor * 100.0
             );
         }

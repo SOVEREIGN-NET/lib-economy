@@ -54,7 +54,7 @@ impl CostSavings {
         }
         
         info!(
-            "💰 Cost savings updated: {} users save avg ${}/month, total ${} saved",
+            "Cost savings updated: {} users save avg ${}/month, total ${} saved",
             self.users_benefiting, self.avg_monthly_savings_per_user, self.total_usd_savings
         );
         

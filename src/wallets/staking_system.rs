@@ -151,7 +151,7 @@ impl StakingPosition {
             self.last_yield_claim = crate::wasm::compatibility::current_timestamp().unwrap_or(0);
             
             info!(
-                "💰 Claimed {} ZHTP yield for staking position - Total earned: {}",
+                "Claimed {} ZHTP yield for staking position - Total earned: {}",
                 pending_yield, self.yield_earned
             );
         }
@@ -228,7 +228,7 @@ impl InfrastructureStaking {
         self.positions.push(position);
         
         info!(
-            "🏗️ Staked {} ZHTP from wallet {} in {} infrastructure pool",
+            "Staked {} ZHTP from wallet {} in {} infrastructure pool",
             amount,
             hex::encode(wallet_address),
             if amount >= crate::LARGE_INFRASTRUCTURE_THRESHOLD { "large" } else { "small" }
@@ -268,7 +268,7 @@ impl InfrastructureStaking {
         }
         
         info!(
-            "🏗️ Unstaked {} ZHTP from wallet {}",
+            "Unstaked {} ZHTP from wallet {}",
             amount,
             hex::encode(wallet_address)
         );
@@ -295,7 +295,7 @@ impl InfrastructureStaking {
         
         if total_yield > 0 {
             info!(
-                "💰 Claimed total {} ZHTP yield for wallet {}",
+                "Claimed total {} ZHTP yield for wallet {}",
                 total_yield,
                 hex::encode(wallet_address)
             );

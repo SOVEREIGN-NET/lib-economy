@@ -512,7 +512,7 @@ impl StakingSystem {
         let staked_amount = self.staked_amount;
         
         info!(
-            "💰 Unstaking completed: {} ZHTP staked, {} accumulated + {} final = {} total rewards",
+            "Unstaking completed: {} ZHTP staked, {} accumulated + {} final = {} total rewards",
             staked_amount, self.accumulated_rewards, final_rewards, total_rewards
         );
 

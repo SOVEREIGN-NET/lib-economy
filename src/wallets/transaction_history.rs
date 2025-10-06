@@ -331,7 +331,7 @@ impl TransactionHistoryManager {
         self.analytics_cache = None;
 
         info!(
-            "📝 Added transaction {} to history (total: {})",
+            "Added transaction {} to history (total: {})",
             hex::encode(transaction.tx_id), self.transactions.len()
         );
 
@@ -357,7 +357,7 @@ impl TransactionHistoryManager {
                     record.finalized_at = Some(SystemTime::now().duration_since(UNIX_EPOCH).unwrap().as_secs());
                     
                     info!(
-                        "✅ Updated transaction {} status: {:?}",
+                        "Updated transaction {} status: {:?}",
                         hex::encode(tx_hash), record.status
                     );
                 },
@@ -369,7 +369,7 @@ impl TransactionHistoryManager {
                         let current_time = SystemTime::now().duration_since(UNIX_EPOCH).unwrap().as_secs();
                         if current_time - record.timestamp > 3600 { // 1 hour
                             record.status = TransactionStatus::Dropped;
-                            info!("⚠️ Transaction {} marked as dropped", hex::encode(tx_hash));
+                            info!("Transaction {} marked as dropped", hex::encode(tx_hash));
                         }
                     }
                 },
@@ -381,7 +381,7 @@ impl TransactionHistoryManager {
                         let current_time = SystemTime::now().duration_since(UNIX_EPOCH).unwrap().as_secs();
                         if current_time - record.timestamp > 3600 { // 1 hour
                             record.status = TransactionStatus::Dropped;
-                            info!("⚠️ Transaction {} marked as dropped", hex::encode(tx_hash));
+                            info!("Transaction {} marked as dropped", hex::encode(tx_hash));
                         }
                     }
                 }
@@ -647,7 +647,7 @@ impl TransactionHistoryManager {
     async fn validate_transaction_on_blockchain(&self, tx_hash: &[u8; 32]) -> Result<()> {
         // In production, this would validate the transaction exists on blockchain
         // For now, just log the validation
-        info!("🔍 Validating transaction {} on blockchain", hex::encode(tx_hash));
+        info!("Validating transaction {} on blockchain", hex::encode(tx_hash));
         Ok(())
     }
 
@@ -661,7 +661,7 @@ impl TransactionHistoryManager {
             // Rebuild indices
             self.rebuild_indices();
             
-            info!("📏 Removed {} old transactions to maintain size limit", excess);
+            info!("Removed {} old transactions to maintain size limit", excess);
         }
         
         Ok(())

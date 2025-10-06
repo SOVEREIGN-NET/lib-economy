@@ -104,7 +104,7 @@ impl QualityBonus {
         
         if total_bonus > 0 {
             info!(
-                "🌐 ISP bypass quality bonus: connection={:.1}% ({}ZHTP), uptime={:.1}% ({}ZHTP), total={}ZHTP",
+                "ISP bypass quality bonus: connection={:.1}% ({}ZHTP), uptime={:.1}% ({}ZHTP), total={}ZHTP",
                 connection_quality * 100.0, quality_bonus_amount,
                 uptime_percentage, uptime_bonus_amount,
                 total_bonus

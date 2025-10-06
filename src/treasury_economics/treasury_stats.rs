@@ -438,7 +438,7 @@ impl TreasuryStatsManager {
         // Update total treasury balance
         if new_total_balance != self.total_treasury_balance {
             info!(
-                "💰 Treasury balance updated: {} -> {} ZHTP",
+                "Treasury balance updated: {} -> {} ZHTP",
                 self.total_treasury_balance, new_total_balance
             );
             self.total_treasury_balance = new_total_balance;
@@ -465,7 +465,7 @@ impl TreasuryStatsManager {
                 }
                 
                 info!(
-                    "📊 Validator fund updated: {}/{} active validators, {:.1}% uptime, {} total stake",
+                    "Validator fund updated: {}/{} active validators, {:.1}% uptime, {} total stake",
                     validator_stats.active_validators, validator_stats.total_validators, 
                     validator_stats.average_uptime * 100.0, validator_stats.total_stake
                 );
@@ -492,7 +492,7 @@ impl TreasuryStatsManager {
                 }
                 
                 info!(
-                    "💰 Staking rewards updated: {} total rewards, {} per epoch, {:.1}% APY",
+                    "Staking rewards updated: {} total rewards, {} per epoch, {:.1}% APY",
                     staking_rewards.total_rewards, staking_rewards.rewards_per_epoch, staking_rewards.apy
                 );
             }

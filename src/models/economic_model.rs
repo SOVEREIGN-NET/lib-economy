@@ -109,7 +109,7 @@ impl EconomicModel {
             }
             
             info!(
-                "📊 Adjusted economic parameters: routing={}, storage={}, compute={} ({}% adjustment)",
+                "Adjusted economic parameters: routing={}, storage={}, compute={} ({}% adjustment)",
                 self.base_routing_rate, self.base_storage_rate, self.base_compute_rate, adjustment_multiplier
             );
         }
@@ -141,7 +141,7 @@ impl EconomicModel {
     pub fn process_network_fees(&mut self, total_fees: u64) -> Result<u64> {
         // Network fees go to infrastructure providers (routing/storage/compute)
         info!(
-            "💰 Processed {} ZHTP tokens in network fees - distributed to infrastructure providers", 
+            "Processed {} ZHTP tokens in network fees - distributed to infrastructure providers", 
             total_fees
         );
         

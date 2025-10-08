@@ -7,7 +7,6 @@ use anyhow::Result;
 use serde::{Serialize, Deserialize};
 use crate::types::*;
 use crate::treasury_economics::DaoTreasury;
-use crate::incentives::IspBypassIncentives;
 use crate::wasm::logging::info;
 
 /// Core economic model for the ZHTP network
@@ -33,8 +32,6 @@ pub struct EconomicModel {
     pub burn_rate: f64,
     /// DAO treasury for UBI and welfare (economics interface only)
     pub dao_treasury: DaoTreasury,
-    /// ISP bypass economic incentives
-    pub isp_bypass_incentives: IspBypassIncentives,
 }
 
 impl EconomicModel {
@@ -62,7 +59,6 @@ impl EconomicModel {
             current_supply: 0,          // Start from zero, mint as needed
             burn_rate: 0.0,             // NO BURNING (utility, not speculation)
             dao_treasury,               // Treasury interface for economics
-            isp_bypass_incentives: IspBypassIncentives::new(), // ISP replacement economics
         }
     }
     
@@ -188,9 +184,7 @@ impl EconomicModel {
             "inflation_rate": self.inflation_rate,
             "burn_rate": self.burn_rate,
             "treasury_balance": self.dao_treasury.treasury_balance,
-            "total_dao_fees_collected": self.dao_treasury.total_dao_fees_collected,
-            "isp_bypass_total_bandwidth": self.isp_bypass_incentives.total_bandwidth_shared,
-            "isp_bypass_cost_savings": self.isp_bypass_incentives.total_isp_cost_savings
+            "total_dao_fees_collected": self.dao_treasury.total_dao_fees_collected
         })
     }
 }

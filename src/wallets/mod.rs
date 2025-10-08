@@ -5,7 +5,6 @@
 pub mod wallet_balance;
 pub mod reward_management;
 pub mod staking_system;
-pub mod isp_bypass_rewards;
 pub mod mesh_discovery_rewards;
 pub mod multi_wallet;
 pub mod transaction_history;

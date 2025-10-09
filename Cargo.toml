@@ -37,4 +37,6 @@ std = ["tracing"]
 wasm = []
 
 [lib]
+name = "lib_economy"
+path = "src/lib.rs"
 crate-type = ["cdylib", "rlib"]

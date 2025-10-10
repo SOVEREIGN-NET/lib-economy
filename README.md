@@ -16,7 +16,7 @@ ZHTP Economics enables the transition from Web3 to Web4 by creating economic inc
 - **Mesh Networking**: Rewards for packet routing and network infrastructure
 - **Universal Basic Income**: 2% of all network activity funds UBI for all verified humans
 - **🏛️ DAO Governance**: Community-driven economic policy and welfare distribution
-- **🔒 Quantum-Safe Finance**: Post-quantum cryptographic economic primitives
+- ** Quantum-Safe Finance**: Post-quantum cryptographic economic primitives
 
 ##**Architecture Overview**
 
@@ -440,7 +440,7 @@ We especially welcome contributions in:
 - Cross-cultural economic adaptation
 - Economic attack vector analysis
 
-## 📄 **License**
+##  **License**
 
 This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
 

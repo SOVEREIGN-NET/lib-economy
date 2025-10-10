@@ -235,7 +235,7 @@ impl BlockchainEconomics for BlockchainIntegration {
         self.economic_model.mint_operational_tokens(reward, "validator reward")?;
         
         info!(
-            "⚡ Handled {} ZHTP block reward for validator: {}",
+            " Handled {} ZHTP block reward for validator: {}",
             reward, validator_id
         );
         

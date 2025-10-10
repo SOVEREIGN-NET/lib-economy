@@ -180,7 +180,7 @@ impl RewardDistribution {
                 distributed_total += reward_per_validator;
                 
                 info!(
-                    "⚡ Distributed {} ZHTP validation reward to validator",
+                    " Distributed {} ZHTP validation reward to validator",
                     reward_per_validator
                 );
             }
@@ -192,7 +192,7 @@ impl RewardDistribution {
         self.last_distribution = crate::wasm::compatibility::current_timestamp().unwrap_or(0);
         
         info!(
-            "⚡ Distributed {} ZHTP total validation rewards to {} validators",
+            " Distributed {} ZHTP total validation rewards to {} validators",
             distributed_total, validators.len()
         );
         

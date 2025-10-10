@@ -72,7 +72,7 @@ impl SupplyManager {
         self.total_burned += amount;
         
         info!(
-            "🔥 BURNED {} ZHTP tokens for {} - Remaining supply: {} tokens", 
+            " BURNED {} ZHTP tokens for {} - Remaining supply: {} tokens", 
             amount, reason, self.current_supply
         );
         

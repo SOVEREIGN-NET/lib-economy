@@ -4,7 +4,7 @@
 //! Provides economic models, rewards calculation, wallet management, transaction 
 //! processing, Universal Basic Income distribution, and ISP bypass incentives.
 //! 
-//! ISP REPLACEMENT ECONOMICS 🌐
+//! ISP REPLACEMENT ECONOMICS 
 //! 
 //! ZHTP creates a free internet by incentivizing users to share resources:
 //! - Route packets: Earn tokens for bandwidth sharing (replaces ISP revenue)

@@ -6,16 +6,16 @@
 
 > **Post-scarcity economics system for the quantum-resistant Web4 internet that replaces ISPs**
 
-The ZHTP Economics Engine is the economic backbone of the ZHTP (Zero-knowledge Hypertext Transfer Protocol) network, implementing a revolutionary post-scarcity economic model designed to replace traditional Internet Service Providers (ISPs) with a decentralized, incentivized mesh network.
+The ZHTP Economics Engine is the economic backbone of the ZHTP (Zero-knowledge Hypertext Transfer Protocol) network, implementing a post-scarcity economic model designed to replace traditional Internet Service Providers (ISPs) with a decentralized, incentivized mesh network.
 
-## 🌟 **Vision: Web4 Economics**
+##  **Vision: Web4 Economics**
 
 ZHTP Economics enables the transition from Web3 to Web4 by creating economic incentives for:
 
 - **ISP Replacement**: Participants earn tokens for sharing internet connectivity
 - **Mesh Networking**: Rewards for packet routing and network infrastructure
 - **Universal Basic Income**: 2% of all network activity funds UBI for all verified humans
-- **🏛️ DAO Governance**: Community-driven economic policy and welfare distribution
+- ** DAO Governance**: Community-driven economic policy and welfare distribution
 - ** Quantum-Safe Finance**: Post-quantum cryptographic economic primitives
 
 ##**Architecture Overview**
@@ -240,7 +240,7 @@ let verified_citizens = verify_ubi_eligibility(&citizen_identities);
 let ubi_amount = calculate_ubi_amount(&dao_treasury, &verified_citizens)?;
 ```
 
-## 📈 **Economic Formulas**
+##  **Economic Formulas**
 
 ### **Network Utilization Adjustment**
 ```rust

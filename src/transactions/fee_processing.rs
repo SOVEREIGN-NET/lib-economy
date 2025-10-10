@@ -19,7 +19,7 @@ pub fn process_network_fees(total_fees: u64) -> Result<u64> {
 /// Process DAO fees for UBI and welfare funding
 pub fn process_dao_fees(dao_fees: u64) -> Result<u64> {
     info!(
-        "🏛️ Processed {} ZHTP tokens in DAO fees - added to UBI/welfare treasury",
+        " Processed {} ZHTP tokens in DAO fees - added to UBI/welfare treasury",
         dao_fees
     );
     

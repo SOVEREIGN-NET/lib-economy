@@ -1,7 +1,7 @@
 //! Mesh discovery reward calculation and management
 //! 
 //! Implements reward systems for nodes that contribute to mesh network discovery,
-//! routing optimization, and network topology maintenance using real lib-network data.
+//! routing optimization, and network topology maintenance using lib-network data.
 
 use anyhow::Result;
 use serde::{Serialize, Deserialize};
@@ -13,7 +13,7 @@ use crate::types::NetworkStats;
 use crate::wallets::WalletBalance;
 use crate::wasm::logging::info;
 
-// Real network integrations
+// network integrations
 use crate::network_types::{
     get_mesh_status, get_network_statistics, get_discovery_statistics, get_active_peer_count,
     MeshStatus, DiscoveryStatistics
@@ -144,14 +144,14 @@ impl MeshDiscoveryRewardManager {
         }
     }
 
-    /// Record mesh discovery work using real network data
+    /// Record mesh discovery work using network data
     pub async fn record_discovery_work(&mut self, work: MeshDiscoveryWork) -> Result<()> {
-        // Get real network discovery statistics for validation
+        // Get network discovery statistics for validation
         let discovery_stats = get_discovery_statistics().await?;
         let mesh_status = get_mesh_status().await?;
         let network_stats = get_network_statistics().await?;
 
-        // Validate discovery work against real network data and statistics
+        // Validate discovery work against network data and statistics
         self.validate_discovery_work(&work, &discovery_stats, &mesh_status).await?;
         self.validate_discovery_work_against_network_stats(&work, &network_stats).await?;
 
@@ -171,13 +171,13 @@ impl MeshDiscoveryRewardManager {
         self.total_peers_discovered += work.peers_discovered;
         self.total_discovery_requests += work.discovery_requests_handled;
 
-        // Update topology contribution score based on real network impact
+        // Update topology contribution score based on network impact
         self.update_topology_contribution(&mesh_status, &discovery_stats).await?;
 
         // Update geographic coverage based on peer distribution
         self.update_geographic_coverage(&discovery_stats).await?;
 
-        // Update reliability metrics with real network measurements
+        // Update reliability metrics with network measurements
         self.update_reliability_metrics(&work, &discovery_stats).await?;
 
         // Update comprehensive work metrics tracking
@@ -191,9 +191,9 @@ impl MeshDiscoveryRewardManager {
         Ok(())
     }
 
-    /// Calculate mesh discovery rewards using real network consensus
+    /// Calculate mesh discovery rewards using network consensus
     pub async fn calculate_discovery_rewards(&mut self, economic_model: &EconomicModel, network_stats: &NetworkStats) -> Result<TokenReward> {
-        // Get real network state for reward calculation
+        // Get network state for reward calculation
         let mesh_status = get_mesh_status().await?;
         let peer_count = get_active_peer_count().await?;
         let discovery_stats = get_discovery_statistics().await?;
@@ -265,7 +265,7 @@ impl MeshDiscoveryRewardManager {
         self.record_discovery_performance(&comprehensive_reward, &mesh_status).await?;
 
         info!(
-            "🏆 Mesh discovery rewards calculated: {} ZHTP (base: {}, topology: {}, diversity: {}, health: {}, reliability: {}, network_util: {:.2}x, demand: {:.2}x)",
+            " Mesh discovery rewards calculated: {} ZHTP (base: {}, topology: {}, diversity: {}, health: {}, reliability: {}, network_util: {:.2}x, demand: {:.2}x)",
             comprehensive_reward.total_reward,
             base_discovery_reward,
             topology_bonus,
@@ -377,7 +377,7 @@ impl MeshDiscoveryRewardManager {
         Ok(())
     }
 
-    // Private helper methods using real network data
+    // Private helper methods using network data
 
     async fn validate_discovery_work(
         &self,
@@ -472,7 +472,7 @@ impl MeshDiscoveryRewardManager {
         &mut self,
         discovery_stats: &DiscoveryStatistics
     ) -> Result<()> {
-        // Update based on real geographic distribution of discovered peers
+        // Update based on geographic distribution of discovered peers
         self.geographic_coverage.regions_covered = discovery_stats.regions_with_peers;
         self.geographic_coverage.coverage_diversity_score = discovery_stats.geographic_diversity_index;
         
@@ -490,7 +490,7 @@ impl MeshDiscoveryRewardManager {
         work: &MeshDiscoveryWork,
         discovery_stats: &DiscoveryStatistics
     ) -> Result<()> {
-        // Update with real network performance measurements
+        // Update with network performance measurements
         self.reliability_metrics.discovery_success_rate = (self.reliability_metrics.discovery_success_rate * 0.8 + work.discovery_quality * 0.2).min(1.0);
         self.reliability_metrics.average_response_time_ms = (self.reliability_metrics.average_response_time_ms * 0.8 + discovery_stats.average_response_time_ms * 0.2).max(0.0);
         

@@ -40,10 +40,10 @@ impl NetworkParticipationRewards {
         // CONNECTIVITY PROVISION REWARDS (like ISP infrastructure payments)
         let connectivity_provision_rewards = work.uptime_hours * crate::ISP_BYPASS_UPTIME_BONUS;
         
-        // ANTI-SYBIL BONUSES (reward real infrastructure, not fake nodes)
+        // ANTI-SYBIL BONUSES (reward infrastructure, not fake nodes)
         let anti_sybil_bonuses = if work.users_served > 5 && work.connection_quality > 0.8 {
-            // Bonus for serving real users with good quality (anti-Sybil)
-            work.users_served * 5 // 5 ZHTP per real user served
+            // Bonus for serving users with good quality (anti-Sybil)
+            work.users_served * 5 // 5 ZHTP per user served
         } else {
             0
         };
@@ -125,8 +125,8 @@ impl NetworkParticipationRewards {
     
     /// Check if participation qualifies for anti-Sybil bonuses
     pub fn qualifies_for_anti_sybil_bonus(work: &IspBypassWork) -> bool {
-        // Real infrastructure indicators (anti-Sybil detection)
-        work.users_served > 3 &&                    // Serving real users
+        // infrastructure indicators (anti-Sybil detection)
+        work.users_served > 3 &&                    // Serving users
         work.connection_quality > 0.8 &&            // Good connection quality
         work.bandwidth_shared_gb > 10 &&            // Significant bandwidth contribution
         work.uptime_hours > 12                      // Reasonable uptime commitment
@@ -160,7 +160,7 @@ impl NetworkParticipationRewards {
                 "bandwidth_sharing": "ISP-style revenue for bandwidth sharing",
                 "mesh_networking": "Infrastructure maintenance payments",
                 "connectivity_provision": "Uptime-based connectivity rewards",
-                "anti_sybil": "Bonuses for serving real users"
+                "anti_sybil": "Bonuses for serving users"
             }
         })
     }

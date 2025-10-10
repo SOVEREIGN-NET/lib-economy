@@ -150,7 +150,7 @@ impl EconomicModel {
         self.dao_treasury.add_dao_fees(dao_fees)?;
         
         info!(
-            "🏛️ Processed {} ZHTP tokens in DAO fees - added to UBI/welfare treasury (Total: {})",
+            " Processed {} ZHTP tokens in DAO fees - added to UBI/welfare treasury (Total: {})",
             dao_fees, self.dao_treasury.treasury_balance
         );
         

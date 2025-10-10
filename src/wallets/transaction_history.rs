@@ -1,7 +1,7 @@
 //! Comprehensive transaction history and analytics system
 //! 
 //! Provides detailed transaction tracking, analytics, and audit capabilities
-//! using real blockchain data from lib-blockchain and lib-network integrations.
+//! using blockchain data from lib-blockchain and lib-network integrations.
 
 use anyhow::Result;
 use serde::{Serialize, Deserialize};
@@ -13,7 +13,7 @@ use crate::transactions::Transaction;
 use crate::types::{TransactionType, Priority};
 use crate::wasm::logging::info;
 
-// Real integrations (avoiding blockchain circular dependency)
+// integrations (avoiding blockchain circular dependency)
 use crate::network_types::{get_mesh_status, get_network_statistics};
 
 // Local transaction type to avoid blockchain dependency
@@ -603,7 +603,7 @@ impl TransactionHistoryManager {
         }
         
         // Return None if not found locally
-        // In a real implementation, this would query the blockchain
+        // In a implementation, this would query the blockchain
         Ok(None)
     }
 

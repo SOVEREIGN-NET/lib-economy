@@ -56,7 +56,7 @@ impl DaoTreasury {
         self.welfare_allocated = self.welfare_allocated.saturating_add(welfare_allocation);
         
         info!(
-            "🏛️ Added {} ZHTP to DAO treasury - UBI: +{}, Welfare: +{}, Total: {}",
+            " Added {} ZHTP to DAO treasury - UBI: +{}, Welfare: +{}, Total: {}",
             amount, ubi_allocation, welfare_allocation, self.treasury_balance
         );
         

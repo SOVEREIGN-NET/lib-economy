@@ -8,7 +8,7 @@ use std::hash::{Hash, Hasher};
 /// WASM-compatible Blake3 hash function
 #[cfg(not(target_arch = "wasm32"))]
 pub fn hash_blake3(data: &[u8]) -> [u8; 32] {
-    // Use real Blake3 hashing on native platforms
+    // Use Blake3 hashing on native platforms
     // This would typically use the blake3 crate
     // For now, using a simple hash for compatibility
     let mut hash = [0u8; 32];

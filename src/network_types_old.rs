@@ -150,7 +150,7 @@ impl Default for NetworkStatistics {
 /// This is a simplified version that doesn't depend on lib-network
 pub async fn get_mesh_status() -> Result<MeshStatus> {
     // Return a default status to avoid dependency on lib-network
-    // In the real implementation, this would be provided by the caller
+    // In the implementation, this would be provided by the caller
     Ok(MeshStatus::default())
 }
 
@@ -158,7 +158,7 @@ pub async fn get_mesh_status() -> Result<MeshStatus> {
 /// This is a simplified version that doesn't depend on lib-network
 pub async fn get_network_statistics() -> Result<NetworkStatistics> {
     // Return default statistics to avoid dependency on lib-network
-    // In the real implementation, this would be provided by the caller
+    // In the implementation, this would be provided by the caller
     Ok(NetworkStatistics::default())
 }
 

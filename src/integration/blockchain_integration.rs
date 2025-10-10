@@ -120,7 +120,7 @@ impl BlockchainIntegration {
         let tx_hash = hex::encode(crate::wasm::hash_blake3(data_json.as_bytes()));
         
         info!(
-            "📤 Submitted economic data to blockchain: {} ZHTP total value, hash: {}",
+            " Submitted economic data to blockchain: {} ZHTP total value, hash: {}",
             data.total_value(),
             &tx_hash[..8]
         );
@@ -246,7 +246,7 @@ impl BlockchainEconomics for BlockchainIntegration {
         self.dao_treasury.add_dao_fees(dao_fees)?;
         
         info!(
-            "🏛️ Processed {} ZHTP DAO fees for UBI/welfare",
+            " Processed {} ZHTP DAO fees for UBI/welfare",
             dao_fees
         );
         

@@ -30,7 +30,7 @@ pub fn calculate_total_ubi_distribution(
 
 /// Verify UBI eligibility for citizens
 pub fn verify_ubi_eligibility(citizens: &[IdentityId]) -> Vec<IdentityId> {
-    // In real implementation, this would check identity verification status
+    // In implementation, this would check identity verification status
     // For now, assume all provided citizens are verified
     citizens.to_vec()
 }

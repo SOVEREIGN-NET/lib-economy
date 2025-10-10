@@ -426,7 +426,7 @@ impl TreasuryStatsManager {
         };
 
         info!(
-            "🏛️ Treasury stats manager initialized with {} ZHTP across {} funds",
+            " Treasury stats manager initialized with {} ZHTP across {} funds",
             total_treasury_balance, manager.fund_data.len()
         );
 

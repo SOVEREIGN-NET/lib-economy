@@ -15,7 +15,7 @@ use crate::types::{TransactionType, Priority};
 use crate::transactions::create_payment_transaction;
 use crate::wasm::logging::info;
 
-// Real integrations (without blockchain dependency to avoid circular dependency)
+// integrations (without blockchain dependency to avoid circular dependency)
 use lib_identity::{IdentityManager, identity::ZhtpIdentity as Identity};
 
 // Local type definitions to replace blockchain imports
@@ -266,7 +266,7 @@ impl MultiWalletManager {
         self.auto_consolidation_rules.insert(wallet_type.clone(), consolidation_rule);
 
         info!(
-            "💼 Created specialized wallet {:?} for identity {}",
+            " Created specialized wallet {:?} for identity {}",
             wallet_type, hex::encode(self.identity.id.clone())
         );
 
@@ -339,7 +339,7 @@ impl MultiWalletManager {
         }
 
         info!(
-            "💸 Transferred {} ZHTP from {:?} to {:?} (fee: {} ZHTP, tx: {})",
+            " Transferred {} ZHTP from {:?} to {:?} (fee: {} ZHTP, tx: {})",
             amount, from_wallet, to_wallet, fee, hex::encode(tx_id)
         );
 

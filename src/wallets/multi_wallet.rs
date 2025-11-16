@@ -26,7 +26,7 @@ pub type Address = Vec<u8>; // Simple address type
 pub enum WalletType {
     /// Primary ZHTP wallet for general transactions
     Primary,
-    /// Specialized wallet for ISP bypass rewards
+    /// Specialized wallet for  rewards
     IspBypassRewards,
     /// Specialized wallet for mesh discovery rewards
     MeshDiscoveryRewards,
@@ -51,7 +51,7 @@ impl WalletType {
     pub fn description(&self) -> &'static str {
         match self {
             WalletType::Primary => "Primary ZHTP wallet for general use",
-            WalletType::IspBypassRewards => "ISP bypass service rewards",
+            WalletType::IspBypassRewards => " service rewards",
             WalletType::MeshDiscoveryRewards => "Mesh discovery and topology rewards",
             WalletType::Staking => "Staking and infrastructure investment",
             WalletType::Governance => "DAO governance and voting",

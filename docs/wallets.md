@@ -223,7 +223,7 @@ fn setup_wallet_system(identity: [u8; 32]) -> anyhow::Result<()> {
     // Set default wallet
     manager.set_default_wallet(personal)?;
     
-    println!("✓ Wallet system ready with {} wallets", manager.wallets.len());
+    println!(" Wallet system ready with {} wallets", manager.wallets.len());
     Ok(())
 }
 ```
@@ -415,7 +415,7 @@ fn auto_save_rewards(manager: &mut MultiWalletManager) -> anyhow::Result<()> {
     if rewards_balance > 0 {
         let save_amount = rewards_balance / 2;
         manager.transfer_between_wallets(&rewards_id, &savings_id, save_amount)?;
-        println!("✓ Auto-saved {} ZHTP to savings", save_amount);
+        println!(" Auto-saved {} ZHTP to savings", save_amount);
     }
     
     Ok(())
@@ -665,7 +665,7 @@ fn credit_infrastructure_rewards(
     // Credit rewards
     manager.deposit(&rewards_wallet, reward.total_reward)?;
     
-    println!("✓ Credited {} ZHTP to rewards wallet", reward.total_reward);
+    println!(" Credited {} ZHTP to rewards wallet", reward.total_reward);
     Ok(())
 }
 ```

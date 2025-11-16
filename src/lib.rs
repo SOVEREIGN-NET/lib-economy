@@ -2,7 +2,7 @@
 //! 
 //! Post-scarcity economics system for the quantum-resistant Web4 internet that replaces ISPs.
 //! Provides economic models, rewards calculation, wallet management, transaction 
-//! processing, Universal Basic Income distribution, and ISP bypass incentives.
+//! processing, Universal Basic Income distribution, and  incentives.
 //! 
 //! ISP REPLACEMENT ECONOMICS 
 //! 

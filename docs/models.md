@@ -512,7 +512,7 @@ mod tests {
 // ✗ Wrong
 let cost = amount;
 
-// ✓ Correct
+//  Correct
 let (_, _, fee) = model.calculate_fee(tx_size, amount, priority);
 let cost = amount + fee;
 ```

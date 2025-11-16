@@ -1,7 +1,7 @@
 //! Reward management system for ZHTP network participants
 //! 
 //! Manages calculation, accumulation, and distribution of rewards for network services
-//! including bandwidth sharing, data storage, mesh routing, and ISP bypass activities.
+//! including bandwidth sharing, data storage, mesh routing, and  activities.
 
 use anyhow::{Result, anyhow};
 use serde::{Serialize, Deserialize};
@@ -18,7 +18,7 @@ use crate::wasm::logging::info;
 pub struct RewardManager {
     /// Current accumulated work metrics
     pub current_work: WorkMetrics,
-    /// ISP bypass specific work metrics
+    ///  specific work metrics
     pub isp_bypass_work: IspBypassWork,
     /// Pending rewards waiting to be claimed
     pub pending_rewards: Vec<TokenReward>,
@@ -66,7 +66,7 @@ pub struct StakingSystem {
     pub min_stake_period: u64,
 }
 
-/// ISP bypass specific reward calculator
+///  specific reward calculator
 #[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct IspBypassRewards {
     /// Bandwidth sharing metrics
@@ -75,11 +75,11 @@ pub struct IspBypassRewards {
     pub connection_stats: ConnectionStats,
     /// Cost savings provided to users
     pub cost_savings: u64,
-    /// ISP bypass reward multiplier
+    ///  reward multiplier
     pub bypass_multiplier: f64,
 }
 
-/// Bandwidth sharing metrics for ISP bypass
+/// Bandwidth sharing metrics for 
 #[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct BandwidthMetrics {
     /// Total bandwidth shared in GB
@@ -283,7 +283,7 @@ impl RewardManager {
         Ok(())
     }
 
-    /// Record ISP bypass activities
+    /// Record  activities
     pub fn record_isp_bypass_work(&mut self, work: IspBypassWork) -> Result<()> {
         self.isp_bypass_work.add_bandwidth_shared(work.bandwidth_shared_gb);
         self.isp_bypass_work.add_packets_routed(work.packets_routed_mb);
@@ -310,7 +310,7 @@ impl RewardManager {
         // Calculate standard network rewards
         let network_reward = TokenReward::calculate(&self.current_work, economic_model)?;
 
-        // Calculate ISP bypass rewards if applicable
+        // Calculate  rewards if applicable
         let mut total_reward = network_reward;
         if self.isp_bypass_work.bandwidth_shared_gb > 0 || self.isp_bypass_work.packets_routed_mb > 0 {
             let bypass_reward = TokenReward::calculate_isp_bypass(&self.isp_bypass_work)?;

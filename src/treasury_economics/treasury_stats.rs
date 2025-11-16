@@ -70,7 +70,7 @@ pub enum TreasuryFund {
     EmergencyReserve,
     /// Validator reward pool
     ValidatorRewards,
-    /// ISP bypass service fund
+    ///  service fund
     IspBypassFund,
     /// Mesh discovery incentive fund
     MeshDiscoveryFund,
@@ -91,7 +91,7 @@ impl TreasuryFund {
             TreasuryFund::Research => "Research and development initiatives",
             TreasuryFund::EmergencyReserve => "Emergency fund for critical situations",
             TreasuryFund::ValidatorRewards => "Validator and consensus participant rewards",
-            TreasuryFund::IspBypassFund => "ISP bypass service provider incentives",
+            TreasuryFund::IspBypassFund => " service provider incentives",
             TreasuryFund::MeshDiscoveryFund => "Mesh network discovery and topology rewards",
             TreasuryFund::BridgeFund => "Cross-chain bridge operation funding",
             TreasuryFund::SmartContractFund => "Smart contract development incentives",

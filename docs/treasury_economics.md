@@ -77,7 +77,7 @@ let (actual_ubi, can_meet_target) = calculate_optimal_ubi_per_citizen(
 );
 
 if can_meet_target {
-    println!("✓ Full target UBI: {} ZHTP", actual_ubi);
+    println!(" Full target UBI: {} ZHTP", actual_ubi);
 } else {
     println!("⚠ Reduced UBI: {} ZHTP (insufficient funds)", actual_ubi);
 }
@@ -212,7 +212,7 @@ fn monthly_treasury_cycle() -> anyhow::Result<()> {
     println!("Development (30%): {} ZHTP", treasury.development_allocated);
     
     if can_meet {
-        println!("\n✓ Can provide full target UBI");
+        println!("\n Can provide full target UBI");
         println!("UBI per citizen ({} citizens): {} ZHTP", citizens, ubi_amount);
     } else {
         println!("\n⚠ Reduced UBI");
@@ -224,7 +224,7 @@ fn monthly_treasury_cycle() -> anyhow::Result<()> {
         treasury.distribute_ubi(ubi_amount)?;
     }
     
-    println!("\n✓ UBI distributed to {} citizens", citizens);
+    println!("\n UBI distributed to {} citizens", citizens);
     println!("Remaining UBI allocation: {} ZHTP", treasury.ubi_allocated);
     
     // Check sustainability

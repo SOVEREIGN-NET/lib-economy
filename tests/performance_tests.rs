@@ -95,7 +95,7 @@ mod benchmarks {
         }
         let duration = start.elapsed();
         
-        println!("ISP bypass reward calculation: {} iterations in {:?} ({:.2} µs/op)",
+        println!(" reward calculation: {} iterations in {:?} ({:.2} µs/op)",
                  ITERATIONS, duration, duration.as_micros() as f64 / ITERATIONS as f64);
         
         // Should complete in reasonable time

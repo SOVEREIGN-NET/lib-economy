@@ -67,7 +67,7 @@ fn calculate_total_node_rewards(
     // 1. Calculate infrastructure rewards
     let infra_reward = TokenReward::calculate(infrastructure_work, &model)?;
     
-    // 2. Calculate ISP bypass rewards
+    // 2. Calculate  rewards
     let isp_reward = TokenReward::calculate_isp_bypass(isp_work)?;
     
     // 3. Calculate network participation rewards
@@ -80,7 +80,7 @@ fn calculate_total_node_rewards(
     
     println!("=== Total Node Rewards ===");
     println!("Infrastructure: {} ZHTP", infra_reward.total_reward);
-    println!("ISP Bypass: {} ZHTP", isp_reward.total_reward);
+    println!(": {} ZHTP", isp_reward.total_reward);
     println!("Network Participation: {} ZHTP", network_reward.total_participation_rewards);
     println!("Total: {} ZHTP", total_reward);
     
@@ -233,7 +233,7 @@ impl RewardVerifier {
 ### What Works 
 - Individual reward calculations (fully functional)
 - Infrastructure rewards (`TokenReward::calculate`)
-- ISP bypass rewards (`TokenReward::calculate_isp_bypass`)
+-  rewards (`TokenReward::calculate_isp_bypass`)
 - Network participation rewards (`NetworkParticipationRewards::calculate`)
 - Reward combination (`TokenReward::combine`)
 
@@ -278,7 +278,7 @@ fn daily_reward_process(
     // Process transaction (would be done by consensus)
     // blockchain::record_transaction(tx)?;
     
-    println!("✓ Node {} earned {} ZHTP", 
+    println!(" Node {} earned {} ZHTP", 
         hex::encode(&node_address[..8]), 
         total
     );
@@ -339,7 +339,7 @@ When implementing the full rewards module, consider:
 | Feature | TokenReward () | NetworkParticipation () | RewardCalculator () |
 |---------|-----------------|--------------------------|---------------------|
 | Infrastructure rewards |  Complete | N/A |  Empty |
-| ISP bypass rewards |  Complete |  Complete |  Empty |
+|  rewards |  Complete |  Complete |  Empty |
 | Network participation | N/A |  Complete |  Empty |
 | Reward aggregation |  Manual | N/A |  Empty |
 | Historical tracking |  |  |  Empty |

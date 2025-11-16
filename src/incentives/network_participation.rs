@@ -100,7 +100,7 @@ impl NetworkParticipationRewards {
         Ok(total_reward)
     }
     
-    /// Calculate ISP bypass routing rewards with hop bonuses
+    /// Calculate  routing rewards with hop bonuses
     pub fn calculate_bypass_routing(bytes_routed: u64, hops: u32) -> Result<u64> {
         // INTERNET INFRASTRUCTURE PRICING MODEL
         // Like ISP peering agreements or CDN revenue sharing
@@ -115,7 +115,7 @@ impl NetworkParticipationRewards {
         
         if total_reward > 0 {
             info!(
-                "ISP bypass routing reward: {} MB through {} hops = {} ZHTP",
+                " routing reward: {} MB through {} hops = {} ZHTP",
                 bytes_routed / 1_000_000, hops, total_reward
             );
         }

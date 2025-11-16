@@ -1,7 +1,7 @@
 //! Work metrics for measuring network contributions
 //! 
 //! Defines structures for tracking different types of work performed
-//! in the network, including ISP bypass activities and infrastructure services.
+//! in the network, including  activities and infrastructure services.
 
 use serde::{Serialize, Deserialize};
 
@@ -80,7 +80,7 @@ impl Default for WorkMetrics {
     }
 }
 
-/// ISP Bypass Work Metrics - measures work done to replace ISPs
+///  Work Metrics - measures work done to replace ISPs
 #[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct IspBypassWork {
     /// Internet bandwidth shared with other users (GB)
@@ -98,7 +98,7 @@ pub struct IspBypassWork {
 }
 
 impl IspBypassWork {
-    /// Create new ISP bypass work metrics
+    /// Create new  work metrics
     pub fn new() -> Self {
         IspBypassWork {
             bandwidth_shared_gb: 0,
@@ -135,7 +135,7 @@ impl IspBypassWork {
         self.cost_savings_provided += usd_equivalent;
     }
     
-    /// Calculate total ISP bypass value
+    /// Calculate total  value
     pub fn total_isp_bypass_value(&self) -> u64 {
         // Bandwidth sharing reward
         let bandwidth_reward = self.bandwidth_shared_gb * crate::ISP_BYPASS_CONNECTIVITY_RATE;

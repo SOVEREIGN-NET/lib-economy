@@ -1,7 +1,7 @@
 //! Integration tests for ZHTP Economics module
 //! 
 //! Comprehensive tests covering all economic functionality including
-//! fee calculation, reward distribution, UBI mechanics, and ISP bypass economics.
+//! fee calculation, reward distribution, UBI mechanics, and  economics.
 
 use lib_economy::*;
 use lib_economy::testing::*;
@@ -99,7 +99,7 @@ mod tests {
     fn test_isp_bypass_economics() {
         let mut incentives = IspBypassIncentives::new();
         
-        // Create ISP bypass work
+        // Create  work
         let bypass_work = IspBypassWork {
             bandwidth_shared_gb: 10,
             packets_routed_mb: 500,

@@ -1,6 +1,6 @@
 //! Economic incentive systems module
 //! 
-//! Manages ISP bypass incentives and infrastructure rewards.
+//! Manages  incentives and infrastructure rewards.
 
 pub mod infrastructure_rewards;
 pub mod quality_bonuses;
@@ -15,7 +15,7 @@ mod tests {
     #[test]
     fn test_incentives_module_exists() {
         // Basic test to ensure the incentives module is properly configured
-        // for local mesh operation without ISP bypass functionality
+        // for local mesh operation without  functionality
         assert!(true);
     }
 }

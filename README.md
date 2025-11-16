@@ -116,7 +116,7 @@ let tx_id = wallet_manager.transfer_between_wallets(
     WalletType::IspBypassRewards,
     WalletType::Primary,
     100_000, // 100K ZHTP
-    "Consolidating ISP bypass rewards".to_string()
+    "Consolidating  rewards".to_string()
 ).await?;
 ```
 
@@ -145,7 +145,7 @@ Economic rewards are calculated based on actual infrastructure contribution:
 | **Packet Routing** | 1 ZHTP/MB | +50% (>95% quality) | +25% (>95% uptime) |
 | **Data Storage** | 10 ZHTP/GB/month | +50% (>95% reliability) | +25% (>99% availability) |
 | **Validation** | 5 ZHTP/validation | +50% (>95% accuracy) | +25% (>23h/day) |
-| **ISP Bypass** | 100 ZHTP/GB shared | +50% (>90% quality) | +10 ZHTP/hour uptime |
+| **** | 100 ZHTP/GB shared | +50% (>90% quality) | +10 ZHTP/hour uptime |
 
 ### **3. Treasury Economics**
 ```rust
@@ -167,7 +167,7 @@ impl DaoTreasury {
 }
 ```
 
-### **4. ISP Bypass Economics**
+### **4.  Economics**
 Economic incentives specifically designed to replace traditional ISPs:
 
 ```rust
@@ -190,7 +190,7 @@ Specialized wallets for different economic activities:
 ```rust
 pub enum WalletType {
     Primary,                    // General transactions
-    IspBypassRewards,          // ISP bypass service rewards
+    IspBypassRewards,          //  service rewards
     MeshDiscoveryRewards,      // Mesh discovery rewards
     Staking,                   // Infrastructure investment
     Governance,                // DAO voting and governance
@@ -328,7 +328,7 @@ pub const DEFAULT_ROUTING_RATE: u64 = 1;                      // 1 ZHTP per MB
 pub const DEFAULT_STORAGE_RATE: u64 = 10;                     // 10 ZHTP per GB/month
 pub const DEFAULT_COMPUTE_RATE: u64 = 5;                      // 5 ZHTP per validation
 
-// ISP bypass incentives
+//  incentives
 pub const ISP_BYPASS_CONNECTIVITY_RATE: u64 = 100;            // 100 ZHTP per GB shared
 pub const ISP_BYPASS_MESH_RATE: u64 = 1;                      // 1 ZHTP per MB routed
 pub const ISP_BYPASS_UPTIME_BONUS: u64 = 10;                  // 10 ZHTP per hour
@@ -356,7 +356,7 @@ let daily_rewards = TokenReward::calculate(&infrastructure_work, &economic_model
 // Typical result: ~2,000-3,000 ZHTP tokens per day
 ```
 
-### **2. ISP Bypass Participant**
+### **2.  Participant**
 ```rust
 let bypass_work = IspBypassWork {
     bandwidth_shared_gb: 100,      // 100GB shared
@@ -388,7 +388,7 @@ let ubi_tx = Transaction::new_ubi_distribution(citizen_wallet, ubi_amount)?;
 ### **Phase 1: Core Economics (Current)**
 - Basic fee and reward system
 - Multi-wallet architecture
-- ISP bypass economics
+-  economics
 - UBI distribution mechanics
 
 ### **Phase 2: Advanced Economics (Q4 2025)**

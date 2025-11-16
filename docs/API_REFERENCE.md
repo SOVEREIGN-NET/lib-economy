@@ -26,13 +26,13 @@ Complete API documentation for all public types, functions, and modules in lib-e
 /// Mandatory DAO fee rate (2% = 200 basis points)
 pub const DEFAULT_DAO_FEE_RATE: u64 = 200;
 
-/// ISP bypass connectivity reward (100 ZHTP per GB bandwidth)
+///  connectivity reward (100 ZHTP per GB bandwidth)
 pub const ISP_BYPASS_CONNECTIVITY_RATE: u64 = 100;
 
-/// ISP bypass mesh routing reward (1 ZHTP per MB packets routed)
+///  mesh routing reward (1 ZHTP per MB packets routed)
 pub const ISP_BYPASS_MESH_RATE: u64 = 1;
 
-/// ISP bypass uptime bonus (10 ZHTP per hour)
+///  uptime bonus (10 ZHTP per hour)
 pub const ISP_BYPASS_UPTIME_BONUS: u64 = 10;
 
 /// Minimum peers required for mesh connectivity rewards
@@ -180,10 +180,10 @@ println!("Total reward: {} ZHTP", reward.total_reward);
 ```
 
 ##### `calculate_isp_bypass(work: &IspBypassWork) -> Result<Self>`
-Calculate ISP bypass specific rewards.
+Calculate  specific rewards.
 
 **Parameters:**
-- `work`: ISP bypass work metrics
+- `work`:  work metrics
 
 **Returns:** `Result<TokenReward>`
 

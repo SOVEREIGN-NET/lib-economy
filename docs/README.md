@@ -20,7 +20,7 @@
 ### Economic Model (`models/`)
 - Fee calculation with mandatory DAO contribution (2%)
 - Infrastructure-based reward calculations
-- ISP bypass economics with fair compensation
+-  economics with fair compensation
 - Dynamic pricing based on network conditions
 
 ### Multi-Wallet System (`wallets/`)
@@ -43,7 +43,7 @@
 
 ### Token Rewards (`models/token_reward.rs`)
 - Infrastructure service rewards (routing, storage, compute)
-- ISP bypass rewards for bandwidth sharing
+-  rewards for bandwidth sharing
 - Quality and uptime bonuses
 - Multi-source reward combination
 

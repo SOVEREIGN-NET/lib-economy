@@ -10,7 +10,7 @@ Practical examples and tutorials for using lib-economy in various scenarios.
 - [Infrastructure Rewards](#infrastructure-rewards)
 - [Treasury Operations](#treasury-operations)
 - [Network Participation](#network-participation)
-- [ISP Bypass Rewards](#isp-bypass-rewards)
+- [ Rewards](#isp-bypass-rewards)
 - [UBI Distribution](#ubi-distribution)
 - [Dynamic Pricing](#dynamic-pricing)
 - [Complete Economic Flows](#complete-economic-flows)
@@ -45,7 +45,7 @@ fn main() -> anyhow::Result<()> {
         WalletType::Personal,
     )?;
     
-    println!("✓ Setup complete!");
+    println!(" Setup complete!");
     Ok(())
 }
 ```
@@ -93,7 +93,7 @@ fn move_funds_to_savings(manager: &mut MultiWalletManager) -> anyhow::Result<()>
         5000,
     )?;
     
-    println!("✓ Transferred 5000 ZHTP to savings");
+    println!(" Transferred 5000 ZHTP to savings");
     Ok(())
 }
 ```
@@ -193,7 +193,7 @@ fn create_ubi_distribution(recipient: [u8; 32]) -> anyhow::Result<Transaction> {
     assert_eq!(tx.dao_fee, 0);
     assert_eq!(tx.total_fee, 0);
     
-    println!("✓ UBI distribution: 1000 ZHTP (no fees)");
+    println!(" UBI distribution: 1000 ZHTP (no fees)");
     Ok(tx)
 }
 ```
@@ -345,7 +345,7 @@ fn calculate_ubi_amounts(treasury: &DaoTreasury) -> anyhow::Result<()> {
     println!("Target monthly UBI: {} ZHTP", target_monthly_ubi);
     
     if can_meet_target {
-        println!("✓ Can provide full target: {} ZHTP per citizen", actual_ubi);
+        println!(" Can provide full target: {} ZHTP per citizen", actual_ubi);
     } else {
         println!("⚠ Reduced UBI: {} ZHTP per citizen", actual_ubi);
         println!("  (Insufficient treasury funds)");
@@ -384,7 +384,7 @@ fn analyze_sustainability(treasury: &DaoTreasury) -> anyhow::Result<()> {
 use lib_economy::{NetworkParticipationRewards, IspBypassWork};
 
 fn calculate_bandwidth_rewards() -> anyhow::Result<()> {
-    // Node sharing bandwidth for ISP bypass
+    // Node sharing bandwidth for 
     let work = IspBypassWork {
         bandwidth_shared_gb: 100,        // 100 GB bandwidth shared
         packets_routed_mb: 5000,         // 5 GB packets routed
@@ -436,9 +436,9 @@ fn calculate_mesh_rewards() -> anyhow::Result<()> {
 
 ---
 
-## ISP Bypass Rewards
+##  Rewards
 
-### Complete ISP Bypass Scenario
+### Complete  Scenario
 
 ```rust
 use lib_economy::{TokenReward, IspBypassWork};
@@ -455,7 +455,7 @@ fn isp_bypass_node_rewards() -> anyhow::Result<()> {
     
     let reward = TokenReward::calculate_isp_bypass(&daily_work)?;
     
-    println!("\n=== ISP Bypass Node (Daily) ===");
+    println!("\n===  Node (Daily) ===");
     println!("Bandwidth shared: {} GB", daily_work.bandwidth_shared_gb);
     println!("Packets routed: {} MB", daily_work.packets_routed_mb);
     println!("Uptime: {} hours", daily_work.uptime_hours);
@@ -518,7 +518,7 @@ fn manual_ubi_distribution(
         // Process transaction (would be done by consensus layer)
         treasury.distribute_ubi(ubi_per_citizen)?;
         
-        println!("✓ Distributed {} ZHTP to {}", ubi_per_citizen, hex::encode(&citizen_address[..8]));
+        println!(" Distributed {} ZHTP to {}", ubi_per_citizen, hex::encode(&citizen_address[..8]));
     }
     
     Ok(())
@@ -616,7 +616,7 @@ fn node_operator_daily_flow() -> anyhow::Result<()> {
     let save_amount = reward.total_reward / 2;
     manager.transfer_between_wallets(&rewards_wallet, &savings_wallet, save_amount)?;
     
-    println!("\n✓ Transferred {} ZHTP to savings", save_amount);
+    println!("\n Transferred {} ZHTP to savings", save_amount);
     
     Ok(())
 }
@@ -639,7 +639,7 @@ fn citizen_ubi_flow() -> anyhow::Result<()> {
     manager.deposit(&personal_wallet, ubi_amount)?;
     
     println!("\n=== Citizen UBI Receipt ===");
-    println!("✓ Received {} ZHTP UBI", ubi_amount);
+    println!(" Received {} ZHTP UBI", ubi_amount);
     println!("Personal wallet balance: {} ZHTP",
         manager.get_wallet(&personal_wallet).unwrap().balance);
     
@@ -707,7 +707,7 @@ fn treasury_monthly_cycle() -> anyhow::Result<()> {
         treasury.distribute_ubi(ubi_per_citizen)?;
     }
     
-    println!("\n✓ UBI distributed to {} citizens", citizens);
+    println!("\n UBI distributed to {} citizens", citizens);
     println!("Remaining UBI allocation: {} ZHTP", treasury.ubi_allocated);
     
     Ok(())
@@ -733,7 +733,7 @@ fn setup_test_environment() -> anyhow::Result<()> {
     // Create mock wallet manager
     let manager = create_mock_wallet_manager([1u8; 32], 10)?;
     
-    println!("✓ Test environment ready");
+    println!(" Test environment ready");
     
     Ok(())
 }
@@ -770,7 +770,7 @@ fn calculate_total_cost(amount: u64, priority: Priority) -> anyhow::Result<u64> 
 ### 3. Use Appropriate Wallet Types
 
 ```rust
-// ✓ Good: Specialized wallets
+//  Good: Specialized wallets
 manager.create_wallet("Daily", WalletType::Personal)?;
 manager.create_wallet("Company", WalletType::Business)?;
 manager.create_wallet("Emergency", WalletType::Savings)?;

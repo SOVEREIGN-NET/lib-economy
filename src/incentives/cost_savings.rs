@@ -11,7 +11,7 @@ use crate::wasm::logging::info;
 /// Cost savings tracking structure
 #[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct CostSavings {
-    /// Total USD equivalent savings from ISP bypass
+    /// Total USD equivalent savings from 
     pub total_usd_savings: u64,
     /// Average monthly savings per user
     pub avg_monthly_savings_per_user: u64,
@@ -35,7 +35,7 @@ impl CostSavings {
         }
     }
     
-    /// Update cost savings from ISP bypass work
+    /// Update cost savings from  work
     pub fn update_from_work(&mut self, work: &IspBypassWork) -> Result<()> {
         // Calculate bandwidth cost savings (cost per GB avoided by users)
         let bandwidth_savings = (work.bandwidth_shared_gb as f64) * self.bandwidth_cost_savings;

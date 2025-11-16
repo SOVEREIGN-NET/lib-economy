@@ -50,9 +50,9 @@ impl InfrastructureRewards {
         })
     }
     
-    /// Calculate ISP bypass specific infrastructure rewards
+    /// Calculate  specific infrastructure rewards
     pub fn calculate_isp_bypass(work: &IspBypassWork) -> Result<Self> {
-        // ISP BYPASS INFRASTRUCTURE REWARDS - replacing traditional ISP revenue
+        //  INFRASTRUCTURE REWARDS - replacing traditional ISP revenue
         
         // Bandwidth sharing reward: 100 ZHTP per GB shared (like ISP revenue per customer)
         let bandwidth_reward = work.bandwidth_shared_gb * crate::ISP_BYPASS_CONNECTIVITY_RATE;
@@ -76,7 +76,7 @@ impl InfrastructureRewards {
         let total_with_quality = ((base_total as f64) * quality_multiplier) as u64;
         
         info!(
-            "ISP bypass rewards: bandwidth={}GB ({}ZHTP), routing={}MB ({}ZHTP), uptime={}h ({}ZHTP), quality={:.1}x, total={} ZHTP",
+            " rewards: bandwidth={}GB ({}ZHTP), routing={}MB ({}ZHTP), uptime={}h ({}ZHTP), quality={:.1}x, total={} ZHTP",
             work.bandwidth_shared_gb, bandwidth_reward,
             work.packets_routed_mb, routing_reward,
             work.uptime_hours, uptime_reward,
@@ -85,8 +85,8 @@ impl InfrastructureRewards {
         
         Ok(InfrastructureRewards {
             routing_rewards: routing_reward,
-            storage_rewards: 0, // Not applicable for ISP bypass
-            compute_rewards: 0, // Not applicable for ISP bypass
+            storage_rewards: 0, // Not applicable for 
+            compute_rewards: 0, // Not applicable for 
             total_infrastructure_rewards: total_with_quality,
         })
     }

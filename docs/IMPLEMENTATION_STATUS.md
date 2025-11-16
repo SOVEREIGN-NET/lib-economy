@@ -15,7 +15,7 @@ lib-economy is a nearly-complete, production-ready economic system implementing 
 - **Lines**: ~650 lines
 - **Files**: 3/3 complete
   - `economic_model.rs` (197 lines) - Fee calculation, parameter adjustment
-  - `token_reward.rs` (216 lines) - Infrastructure rewards, ISP bypass
+  - `token_reward.rs` (216 lines) - Infrastructure rewards, 
   - `dao_treasury.rs` (Full) - Treasury management
 - **Key Features**:
   - Dynamic fee calculation with DAO contribution (2%)
@@ -181,7 +181,7 @@ pub fn distribute_ubi_to_citizens() -> anyhow::Result<()> {
 **What Exists Elsewhere:**
 -  Token reward calculation in `models/token_reward.rs` (216 lines, complete)
 -  Network participation rewards in `incentives/network_participation.rs` (168 lines, complete)
--  ISP bypass rewards in `models/token_reward.rs::calculate_isp_bypass()`
+-   rewards in `models/token_reward.rs::calculate_isp_bypass()`
 
 **Impact:**
 - **Minor** - Individual reward calculations fully work

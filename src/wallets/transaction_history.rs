@@ -59,7 +59,7 @@ pub enum TransactionCategory {
     CrossWallet,
     /// Infrastructure payments
     Infrastructure,
-    /// ISP bypass service fees
+    ///  service fees
     IspBypass,
     /// Mesh discovery rewards
     MeshDiscovery,

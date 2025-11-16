@@ -26,7 +26,7 @@ DEVELOPMENT_ALLOCATION = 30%             // Dev from DAO fees
 
 ---
 
-## 🚀 Quick Start
+##  Quick Start
 
 ```rust
 use lib_economy::*;
@@ -199,7 +199,7 @@ let ubi = treasury.calculate_ubi_per_citizen(total_citizens);
 
 ---
 
-## 🔍 Status Checks
+##  Status Checks
 
 ### Wallet Status
 
@@ -267,7 +267,7 @@ WorkMetrics {
 }
 ```
 
-### ISP Bypass Work
+###  Work
 
 ```rust
 IspBypassWork {
@@ -311,7 +311,7 @@ IspBypassWork {
 // ✗ Error
 manager.withdraw(&wallet_id, amount)?;
 
-// ✓ Solution
+//  Solution
 if wallet.balance >= amount {
     manager.withdraw(&wallet_id, amount)?;
 }
@@ -323,7 +323,7 @@ if wallet.balance >= amount {
 // ✗ Error
 let wallet = manager.get_wallet(&wallet_id).unwrap();
 
-// ✓ Solution
+//  Solution
 let wallet = manager.get_wallet(&wallet_id)
     .ok_or(anyhow::anyhow!("Wallet not found"))?;
 ```
@@ -334,7 +334,7 @@ let wallet = manager.get_wallet(&wallet_id)
 // ✗ Wrong
 let total = amount; // Forgot fees!
 
-// ✓ Correct
+//  Correct
 let tx = Transaction::new_payment(from, to, amount, priority)?;
 let total = amount + tx.total_fee;
 ```
@@ -369,7 +369,7 @@ total_reward = routing + storage + compute + quality_bonus + uptime_bonus
 
 ---
 
-## 🔗 Module Dependencies
+##  Module Dependencies
 
 ```
 lib-economy

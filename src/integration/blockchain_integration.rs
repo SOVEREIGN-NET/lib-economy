@@ -24,7 +24,7 @@ pub trait BlockchainEconomics {
     /// Handle infrastructure rewards
     fn handle_infrastructure_rewards(&mut self, provider_id: &str, reward: u64) -> Result<()>;
     
-    /// Process ISP bypass incentives
+    /// Process  incentives
     fn process_isp_bypass_rewards(&mut self, participant_id: &str, reward: u64) -> Result<()>;
 }
 
@@ -39,7 +39,7 @@ pub struct EconomicBlockchainData {
     pub infrastructure_rewards: u64,
     /// Validator rewards
     pub validator_rewards: u64,
-    /// ISP bypass incentive rewards
+    ///  incentive rewards
     pub isp_bypass_rewards: u64,
     /// Total tokens minted
     pub tokens_minted: u64,
@@ -265,10 +265,10 @@ impl BlockchainEconomics for BlockchainIntegration {
     }
     
     fn process_isp_bypass_rewards(&mut self, participant_id: &str, reward: u64) -> Result<()> {
-        self.economic_model.mint_operational_tokens(reward, "ISP bypass reward")?;
+        self.economic_model.mint_operational_tokens(reward, " reward")?;
         
         info!(
-            "Processed {} ZHTP ISP bypass reward for participant: {}",
+            "Processed {} ZHTP  reward for participant: {}",
             reward, participant_id
         );
         

@@ -162,7 +162,7 @@ mod stress_tests {
         assert!(total_rewards > participant_count); // Should be meaningful rewards
         assert!(incentives.total_bandwidth_shared > 0);
         
-        println!("ISP bypass mesh: {} participants, {} total rewards", 
+        println!(" mesh: {} participants, {} total rewards", 
                 participant_count, total_rewards);
     }
 

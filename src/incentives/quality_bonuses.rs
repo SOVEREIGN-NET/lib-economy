@@ -69,13 +69,13 @@ impl QualityBonus {
         })
     }
     
-    /// Calculate quality bonus for ISP bypass work
+    /// Calculate quality bonus for  work
     pub fn calculate_isp_bypass_quality(
         connection_quality: f64,
         uptime_hours: u64,
         base_reward: u64,
     ) -> Result<Self> {
-        // ISP bypass quality bonuses (like premium ISP service tiers)
+        //  quality bonuses (like premium ISP service tiers)
         let quality_bonus_amount = if connection_quality > 0.95 {
             // 15% bonus for excellent connection quality
             (base_reward * 15) / 100
@@ -104,7 +104,7 @@ impl QualityBonus {
         
         if total_bonus > 0 {
             info!(
-                "ISP bypass quality bonus: connection={:.1}% ({}ZHTP), uptime={:.1}% ({}ZHTP), total={}ZHTP",
+                " quality bonus: connection={:.1}% ({}ZHTP), uptime={:.1}% ({}ZHTP), total={}ZHTP",
                 connection_quality * 100.0, quality_bonus_amount,
                 uptime_percentage, uptime_bonus_amount,
                 total_bonus

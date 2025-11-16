@@ -89,13 +89,13 @@ fn manual_ubi_distribution(
         // Transaction would be processed by consensus layer
         // blockchain::record_transaction(tx)?;
         
-        println!("✓ Distributed {} ZHTP to {}", 
+        println!(" Distributed {} ZHTP to {}", 
             ubi_amount, 
             hex::encode(&citizen_address[..8])
         );
     }
     
-    println!("✓ UBI distribution complete");
+    println!(" UBI distribution complete");
     Ok(())
 }
 ```
@@ -291,7 +291,7 @@ fn monthly_ubi_process(
         // Process transaction...
     }
     
-    println!("✓ Distribution complete");
+    println!(" Distribution complete");
     Ok(())
 }
 ```

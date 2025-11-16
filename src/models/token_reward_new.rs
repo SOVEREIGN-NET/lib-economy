@@ -89,9 +89,9 @@ impl TokenReward {
         Ok(())
     }
     
-    /// Calculate ISP bypass specific rewards
+    /// Calculate  specific rewards
     pub fn calculate_isp_bypass(work: &IspBypassWork) -> Result<Self> {
-        // ISP BYPASS REWARDS - replacing traditional ISP revenue
+        //  REWARDS - replacing traditional ISP revenue
         let bandwidth_reward = work.bandwidth_shared_gb.saturating_mul(crate::ISP_BYPASS_CONNECTIVITY_RATE);
         let routing_reward = work.packets_routed_mb.saturating_mul(crate::ISP_BYPASS_MESH_RATE);
         let uptime_bonus = work.uptime_hours.saturating_mul(crate::ISP_BYPASS_UPTIME_BONUS);
@@ -108,8 +108,8 @@ impl TokenReward {
         
         Ok(TokenReward {
             routing_reward,
-            storage_reward: 0, // Not applicable for ISP bypass
-            compute_reward: 0, // Not applicable for ISP bypass
+            storage_reward: 0, // Not applicable for 
+            compute_reward: 0, // Not applicable for 
             quality_bonus,
             uptime_bonus,
             total_reward,

@@ -5,7 +5,7 @@ pub trait NetworkEconomics {
     /// Handle bandwidth sharing rewards
     fn handle_bandwidth_reward(&mut self, node_id: &str, bytes_shared: u64) -> Result<(), String>;
     
-    /// Process ISP bypass incentives
+    /// Process  incentives
     fn process_isp_bypass(&mut self, node_id: &str, bypass_amount: u64) -> Result<(), String>;
     
     /// Handle network quality bonuses

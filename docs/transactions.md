@@ -254,7 +254,7 @@ fn complete_transaction_flow(
     
     // 2. Validate transaction
     validate_transaction(&tx)?;
-    println!("✓ Transaction validated");
+    println!(" Transaction validated");
     
     // 3. Process fees
     let model = EconomicModel::new();
@@ -263,12 +263,12 @@ fn complete_transaction_flow(
     let mut treasury = DaoTreasury::new();
     treasury.receive_dao_fee(tx.dao_fee)?;
     treasury.allocate_funds()?;
-    println!("✓ Fees processed");
+    println!(" Fees processed");
     
     // 4. Record on blockchain (would be done by consensus layer)
     // blockchain::record_transaction(tx)?;
     
-    println!("✓ Transaction complete");
+    println!(" Transaction complete");
     Ok(())
 }
 ```
@@ -306,7 +306,7 @@ fn send_from_wallet(
     // Deduct from wallet
     manager.withdraw(wallet_id, total_cost)?;
     
-    println!("✓ Sent {} ZHTP (+ {} fee) from wallet", amount, tx.total_fee);
+    println!(" Sent {} ZHTP (+ {} fee) from wallet", amount, tx.total_fee);
     Ok(tx)
 }
 ```

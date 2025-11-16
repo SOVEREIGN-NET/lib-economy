@@ -93,7 +93,7 @@ impl RewardDistribution {
         Ok(())
     }
     
-    /// Distribute ISP bypass rewards
+    /// Distribute  rewards
     pub fn distribute_isp_bypass_rewards(
         &mut self,
         participants: &mut [(&mut WalletBalance, &IspBypassWork)],
@@ -120,8 +120,8 @@ impl RewardDistribution {
             if reward_share > 0 {
                 let reward = TokenReward {
                     routing_reward: (work.packets_routed_mb * reward_share) / participant_value,
-                    storage_reward: 0, // ISP bypass doesn't include storage
-                    compute_reward: 0, // ISP bypass doesn't include compute
+                    storage_reward: 0, //  doesn't include storage
+                    compute_reward: 0, //  doesn't include compute
                     quality_bonus: if work.connection_quality > 0.9 { reward_share / 10 } else { 0 },
                     uptime_bonus: (work.uptime_hours * reward_share) / participant_value,
                     total_reward: reward_share,
@@ -132,7 +132,7 @@ impl RewardDistribution {
                 distributed_total += reward_share;
                 
                 info!(
-                    "Distributed {} ZHTP ISP bypass reward to participant",
+                    "Distributed {} ZHTP  reward to participant",
                     reward_share
                 );
             }
@@ -144,7 +144,7 @@ impl RewardDistribution {
         self.last_distribution = crate::wasm::compatibility::current_timestamp().unwrap_or(0);
         
         info!(
-            "Distributed {} ZHTP total ISP bypass rewards to {} participants",
+            "Distributed {} ZHTP total  rewards to {} participants",
             distributed_total, participants.len()
         );
         
@@ -237,7 +237,7 @@ pub fn distribute_rewards(
     
     // Allocate reward pool
     let infrastructure_pool = (total_reward_pool * 60) / 100; // 60% to infrastructure
-    let isp_bypass_pool = (total_reward_pool * 30) / 100;     // 30% to ISP bypass
+    let isp_bypass_pool = (total_reward_pool * 30) / 100;     // 30% to 
     let validation_pool = (total_reward_pool * 10) / 100;     // 10% to validation
     
     // Distribute rewards

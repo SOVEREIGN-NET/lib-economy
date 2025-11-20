@@ -369,7 +369,7 @@ mod edge_case_tests {
                         quality_bonus: 0,
                         uptime_bonus: 0,
                         total_reward: (i % 350) as u64,
-                        currency: "ZHTP".to_string(),
+                        currency: "SOV".to_string(),
                     };
                     let _ = wallets[wallet_idx].add_reward(&reward);
                 }

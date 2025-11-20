@@ -151,7 +151,7 @@ impl StakingPosition {
             self.last_yield_claim = crate::wasm::compatibility::current_timestamp().unwrap_or(0);
             
             info!(
-                "Claimed {} ZHTP yield for staking position - Total earned: {}",
+                "Claimed {} SOV yield for staking position - Total earned: {}",
                 pending_yield, self.yield_earned
             );
         }
@@ -295,7 +295,7 @@ impl InfrastructureStaking {
         
         if total_yield > 0 {
             info!(
-                "Claimed total {} ZHTP yield for wallet {}",
+                "Claimed total {} SOV yield for wallet {}",
                 total_yield,
                 hex::encode(wallet_address)
             );

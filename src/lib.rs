@@ -1,16 +1,16 @@
-//! ZHTP Economics Engine
+//! SOV Economics Engine
 //! 
 //! Post-scarcity economics system for the quantum-resistant Web4 internet that replaces ISPs.
 //! Provides economic models, rewards calculation, wallet management, transaction 
-//! processing, Universal Basic Income distribution, and  incentives.
+//! processing, Universal Basic Income distribution, and incentives.
 //! 
 //! ISP REPLACEMENT ECONOMICS 
 //! 
-//! ZHTP creates a free internet by incentivizing users to share resources:
-//! - Route packets: Earn tokens for bandwidth sharing (replaces ISP revenue)
-//! - Store content: Earn tokens for distributed storage (replaces CDN revenue) 
-//! - Validate transactions: Earn tokens for network security (replaces authority fees)
-//! - Share internet: Earn tokens for connectivity sharing (crowd-sourced ISP)
+//! The Sovereign Network creates a free internet by incentivizing users to share resources:
+//! - Route packets: Earn SOV tokens for bandwidth sharing (replaces ISP revenue)
+//! - Store content: Earn SOV tokens for distributed storage (replaces CDN revenue) 
+//! - Validate transactions: Earn SOV tokens for network security (replaces authority fees)
+//! - Share internet: Earn SOV tokens for connectivity sharing (crowd-sourced ISP)
 //! 
 //! ALL PARTICIPANTS RECEIVE UBI:
 //! - 2% of all network activity funds Universal Basic Income
@@ -55,15 +55,15 @@ pub const UBI_ALLOCATION_PERCENTAGE: u64 = 60; // 60% of DAO fees
 pub const WELFARE_ALLOCATION_PERCENTAGE: u64 = 40; // 40% of DAO fees
 
 /// ISP replacement economic constants
-pub const DEFAULT_ROUTING_RATE: u64 = 1; // ZHTP per MB routed
-pub const DEFAULT_STORAGE_RATE: u64 = 10; // ZHTP per GB stored per month
-pub const DEFAULT_COMPUTE_RATE: u64 = 5; // ZHTP per validation
-pub const ISP_BYPASS_CONNECTIVITY_RATE: u64 = 100; // ZHTP per GB shared
-pub const ISP_BYPASS_MESH_RATE: u64 = 1; // ZHTP per MB routed
-pub const ISP_BYPASS_UPTIME_BONUS: u64 = 10; // ZHTP per hour uptime
+pub const DEFAULT_ROUTING_RATE: u64 = 1; // SOV per MB routed
+pub const DEFAULT_STORAGE_RATE: u64 = 10; // SOV per GB stored per month
+pub const DEFAULT_COMPUTE_RATE: u64 = 5; // SOV per validation
+pub const ISP_BYPASS_CONNECTIVITY_RATE: u64 = 100; // SOV per GB shared
+pub const ISP_BYPASS_MESH_RATE: u64 = 1; // SOV per MB routed
+pub const ISP_BYPASS_UPTIME_BONUS: u64 = 10; // SOV per hour uptime
 
 /// Staking and infrastructure investment constants
-pub const LARGE_INFRASTRUCTURE_THRESHOLD: u64 = 100_000; // ZHTP threshold for large infrastructure
+pub const LARGE_INFRASTRUCTURE_THRESHOLD: u64 = 100_000; // SOV threshold for large infrastructure
 pub const LARGE_INFRASTRUCTURE_DAILY_YIELD: u64 = 10000; // 0.01% daily yield (divisor)
 pub const SMALL_INFRASTRUCTURE_DAILY_YIELD: u64 = 5000; // 0.02% daily yield (divisor)
 pub const MAX_ANNUAL_YIELD_PERCENTAGE: u64 = 10; // 10% max annual return

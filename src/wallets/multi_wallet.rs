@@ -378,7 +378,7 @@ impl MultiWalletManager {
         self.check_auto_consolidation(&wallet_type).await?;
 
         info!(
-            "🎁 Added {} ZHTP reward to {:?} wallet",
+            "🎁 Added {} SOV reward to {:?} wallet",
             reward.total_reward, wallet_type
         );
 

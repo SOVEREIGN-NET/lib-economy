@@ -42,7 +42,7 @@ mod tests {
             quality_bonus: 25,
             uptime_bonus: 25,
             total_reward: 400,
-            currency: "ZHTP".to_string(),
+            currency: "SOV".to_string(),
         };
         
         // Add reward
@@ -96,7 +96,7 @@ mod tests {
             quality_bonus: 10,
             uptime_bonus: 15,
             total_reward: 200,
-            currency: "ZHTP".to_string(),
+            currency: "SOV".to_string(),
         };
         
         let reward2 = TokenReward {
@@ -106,7 +106,7 @@ mod tests {
             quality_bonus: 20,
             uptime_bonus: 25,
             total_reward: 300,
-            currency: "ZHTP".to_string(),
+            currency: "SOV".to_string(),
         };
         
         wallet.add_reward(&reward1).unwrap();
@@ -151,7 +151,7 @@ mod tests {
             quality_bonus: 15,
             uptime_bonus: 5,
             total_reward: 200,
-            currency: "ZHTP".to_string(),
+            currency: "SOV".to_string(),
         };
         
         wallet.add_reward(&reward).unwrap();
@@ -191,7 +191,7 @@ mod tests {
             quality_bonus: 0,
             uptime_bonus: 0,
             total_reward: 100,
-            currency: "ZHTP".to_string(),
+            currency: "SOV".to_string(),
         };
         
         wallet.add_reward(&reward).unwrap();

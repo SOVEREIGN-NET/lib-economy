@@ -9,6 +9,7 @@ pub mod validation;
 pub mod fee_processing;
 pub mod dao_fee_proofs;
 pub mod priority_fees;
+pub mod blockchain_integration;
 
 pub use transaction::*;
 pub use creation::*;
@@ -16,6 +17,7 @@ pub use validation::*;
 pub use fee_processing::*;
 pub use dao_fee_proofs::*;
 pub use priority_fees::*;
+pub use blockchain_integration::*;
 
 #[cfg(test)]
 mod tests {

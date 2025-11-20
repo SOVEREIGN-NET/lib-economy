@@ -26,10 +26,10 @@ impl InfrastructureRewards {
     /// Calculate infrastructure rewards based on work performed
     pub fn calculate(work: &WorkMetrics, model: &EconomicModel) -> Result<Self> {
         // INTERNET INFRASTRUCTURE REWARDS (like ISP/CDN revenue sharing)
-        // Routing: 1 ZHTP per MB of data routed (actual bandwidth costs)
+        // Routing: 1 SOV per MB of data routed (actual bandwidth costs)
         let routing_rewards = (work.routing_work / 1_000_000) * model.base_routing_rate; // bytes to MB
         
-        // Storage: 10 ZHTP per GB stored per month (cloud storage pricing model)
+        // Storage: 10 SOV per GB stored per month (cloud storage pricing model)
         let storage_rewards = (work.storage_work / 1_000_000_000) * model.base_storage_rate; // bytes to GB
         
         // Compute: Minimal processing fee for consensus validation
@@ -54,13 +54,13 @@ impl InfrastructureRewards {
     pub fn calculate_isp_bypass(work: &IspBypassWork) -> Result<Self> {
         //  INFRASTRUCTURE REWARDS - replacing traditional ISP revenue
         
-        // Bandwidth sharing reward: 100 ZHTP per GB shared (like ISP revenue per customer)
+        // Bandwidth sharing reward: 100 SOV per GB shared (like ISP revenue per customer)
         let bandwidth_reward = work.bandwidth_shared_gb * crate::ISP_BYPASS_CONNECTIVITY_RATE;
         
-        // Packet routing reward: 1 ZHTP per MB routed (like peering fees)
+        // Packet routing reward: 1 SOV per MB routed (like peering fees)
         let routing_reward = work.packets_routed_mb * crate::ISP_BYPASS_MESH_RATE;
         
-        // Uptime bonus: 10 ZHTP per hour of connectivity provided
+        // Uptime bonus: 10 SOV per hour of connectivity provided
         let uptime_reward = work.uptime_hours * crate::ISP_BYPASS_UPTIME_BONUS;
         
         // Quality multiplier for high-quality connections (like premium ISP tiers)

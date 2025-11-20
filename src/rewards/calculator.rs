@@ -39,7 +39,7 @@ impl RewardCalculator {
     /// Calculate reward for useful work
     pub fn calculate_work_reward(&self, work_type: UsefulWorkType, work_amount: u64) -> u64 {
         let multiplier = self.work_multipliers.get(&work_type).unwrap_or(&1.0);
-        (work_amount as f64 * multiplier * 10.0) as u64 // 10 ZHTP per unit of work
+        (work_amount as f64 * multiplier * 10.0) as u64 // 10 SOV per unit of work
     }
 
     /// Calculate reward for a simple reward structure
@@ -61,7 +61,7 @@ impl RewardCalculator {
 
         for (work_type, amount) in work_breakdown {
             if let Some(multiplier) = self.work_multipliers.get(work_type) {
-                let bonus = (*amount as f64 * multiplier * 10.0) as u64; // 10 ZHTP per unit
+                let bonus = (*amount as f64 * multiplier * 10.0) as u64; // 10 SOV per unit
                 total_bonus += bonus;
             }
         }

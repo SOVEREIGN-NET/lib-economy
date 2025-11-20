@@ -65,7 +65,7 @@ impl WalletBalance {
         self.pending_rewards = 0;
         
         if claimed > 0 {
-            info!("Claimed {} ZHTP tokens from infrastructure services", claimed);
+            info!("Claimed {} SOV tokens from infrastructure services", claimed);
         }
         
         Ok(claimed)
@@ -98,7 +98,7 @@ impl WalletBalance {
         self.staked_balance += amount;
         
         info!(
-            "🏦 Staked {} ZHTP tokens - Available: {}, Staked: {}",
+            "🏦 Staked {} SOV tokens - Available: {}, Staked: {}",
             amount, self.available_balance, self.staked_balance
         );
         
@@ -115,7 +115,7 @@ impl WalletBalance {
         self.available_balance += amount;
         
         info!(
-            "🏦 Unstaked {} ZHTP tokens - Available: {}, Staked: {}",
+            "🏦 Unstaked {} SOV tokens - Available: {}, Staked: {}",
             amount, self.available_balance, self.staked_balance
         );
         

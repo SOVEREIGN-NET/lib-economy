@@ -258,7 +258,7 @@ impl MeshDiscoveryRewardManager {
             quality_bonus: topology_bonus + diversity_bonus,
             uptime_bonus: reliability_bonus + network_health_bonus,
             total_reward: final_reward,
-            currency: "ZHTP".to_string(),
+            currency: "SOV".to_string(),
         };
 
         // Record performance with network validation
@@ -311,7 +311,7 @@ impl MeshDiscoveryRewardManager {
                     quality_bonus: reward_amount * 10 / 100,
                     uptime_bonus: reward_amount * 10 / 100,
                     total_reward: reward_amount,
-                    currency: "ZHTP".to_string(),
+                    currency: "SOV".to_string(),
                 };
 
                 wallet.add_reward(&reward)?;
@@ -508,9 +508,9 @@ impl MeshDiscoveryRewardManager {
 
     async fn calculate_base_discovery_reward(&self) -> Result<u64> {
         // Base reward calculation
-        let peer_discovery_reward = self.current_work.peers_discovered as u64 * 50; // 50 ZHTP per peer
-        let request_handling_reward = (self.current_work.discovery_requests_handled / 100) * 10; // 10 ZHTP per 100 requests
-        let routing_update_reward = self.current_work.routing_updates as u64 * 25; // 25 ZHTP per update
+        let peer_discovery_reward = self.current_work.peers_discovered as u64 * 50; // 50 SOV per peer
+        let request_handling_reward = (self.current_work.discovery_requests_handled / 100) * 10; // 10 SOV per 100 requests
+        let routing_update_reward = self.current_work.routing_updates as u64 * 25; // 25 SOV per update
         
         Ok(peer_discovery_reward + request_handling_reward + routing_update_reward)
     }

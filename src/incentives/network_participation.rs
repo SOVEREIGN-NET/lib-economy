@@ -32,7 +32,7 @@ impl NetworkParticipationRewards {
         // MESH NETWORKING REWARDS (fixed reward for maintaining mesh connectivity)
         // Anti-Sybil design: not per-peer to avoid gaming, fixed for maintaining mesh
         let mesh_networking_rewards = if peers_connected >= crate::MESH_CONNECTIVITY_THRESHOLD {
-            crate::ISP_BYPASS_UPTIME_BONUS // 10 ZHTP per hour for maintaining mesh connectivity
+            crate::ISP_BYPASS_UPTIME_BONUS // 10 SOV per hour for maintaining mesh connectivity
         } else {
             0 // No reward for insufficient connectivity
         };
@@ -43,7 +43,7 @@ impl NetworkParticipationRewards {
         // ANTI-SYBIL BONUSES (reward infrastructure, not fake nodes)
         let anti_sybil_bonuses = if work.users_served > 5 && work.connection_quality > 0.8 {
             // Bonus for serving users with good quality (anti-Sybil)
-            work.users_served * 5 // 5 ZHTP per user served
+            work.users_served * 5 // 5 SOV per user served
         } else {
             0
         };
@@ -74,7 +74,7 @@ impl NetworkParticipationRewards {
         
         // Fixed reward for maintaining network connectivity (not per-peer to avoid Sybil)
         let base_reward = if peers_connected >= crate::MESH_CONNECTIVITY_THRESHOLD {
-            crate::ISP_BYPASS_UPTIME_BONUS // 10 ZHTP per hour for maintaining mesh connectivity
+            crate::ISP_BYPASS_UPTIME_BONUS // 10 SOV per hour for maintaining mesh connectivity
         } else {
             0 // No reward for insufficient connectivity
         };
@@ -105,7 +105,7 @@ impl NetworkParticipationRewards {
         // INTERNET INFRASTRUCTURE PRICING MODEL
         // Like ISP peering agreements or CDN revenue sharing
         
-        // 1 ZHTP per MB routed (standard bandwidth pricing)
+        // 1 SOV per MB routed (standard bandwidth pricing)
         let base_reward = bytes_routed / 1_000_000; // bytes to MB
         
         // Minimal hop bonus (like transit costs in ISP networks)

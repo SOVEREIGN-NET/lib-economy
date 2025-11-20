@@ -193,7 +193,7 @@ mod tests {
             quality_bonus: 10,
             uptime_bonus: 5,
             total_reward: 365,
-            currency: "ZHTP".to_string(),
+            currency: "SOV".to_string(),
         };
         
         let mut stats = NetworkStats::new();
@@ -242,7 +242,7 @@ mod tests {
             quality_bonus: 10,
             uptime_bonus: 10,
             total_reward: 320,
-            currency: "ZHTP".to_string(),
+            currency: "SOV".to_string(),
         };
         
         let mut stats = NetworkStats::new();

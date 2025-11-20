@@ -23,7 +23,7 @@ pub struct TokenReward {
     pub uptime_bonus: u64,
     /// Total reward amount
     pub total_reward: u64,
-    /// Currency type (always ZHTP)
+    /// Currency type (always SOV)
     pub currency: String,
 }
 
@@ -31,10 +31,10 @@ impl TokenReward {
     /// Calculate comprehensive token rewards based on useful work
     pub fn calculate(work: &WorkMetrics, model: &EconomicModel) -> Result<Self> {
         // INTERNET INFRASTRUCTURE REWARDS (like ISP/CDN revenue sharing)
-        // Routing: 1 ZHTP per MB of data routed (actual bandwidth costs)
+        // Routing: 1 SOV per MB of data routed (actual bandwidth costs)
         let routing_reward = (work.routing_work / 1_000_000).saturating_mul(model.base_routing_rate); // bytes to MB
         
-        // Storage: 10 ZHTP per GB stored per month (cloud storage pricing model)
+        // Storage: 10 SOV per GB stored per month (cloud storage pricing model)
         let storage_reward = (work.storage_work / 1_000_000_000).saturating_mul(model.base_storage_rate); // bytes to GB
         
         // Compute: Minimal processing fee for consensus validation

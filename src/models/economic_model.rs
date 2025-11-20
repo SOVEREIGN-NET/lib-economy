@@ -137,7 +137,7 @@ impl EconomicModel {
     pub fn process_network_fees(&mut self, total_fees: u64) -> Result<u64> {
         // Network fees go to infrastructure providers (routing/storage/compute)
         info!(
-            "Processed {} ZHTP tokens in network fees - distributed to infrastructure providers", 
+            "Processed {} SOV tokens in network fees - distributed to infrastructure providers", 
             total_fees
         );
         
@@ -150,7 +150,7 @@ impl EconomicModel {
         self.dao_treasury.add_dao_fees(dao_fees)?;
         
         info!(
-            " Processed {} ZHTP tokens in DAO fees - added to UBI/welfare treasury (Total: {})",
+            " Processed {} SOV tokens in DAO fees - added to UBI/welfare treasury (Total: {})",
             dao_fees, self.dao_treasury.treasury_balance
         );
         
@@ -166,7 +166,7 @@ impl EconomicModel {
         self.current_supply += amount;
         
         info!(
-            "🏭 MINTED {} ZHTP tokens for {} - Total supply: {} tokens", 
+            "🏭 MINTED {} SOV tokens for {} - Total supply: {} tokens", 
             amount, purpose, self.current_supply
         );
         

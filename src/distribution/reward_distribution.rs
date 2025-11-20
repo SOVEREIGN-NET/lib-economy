@@ -67,7 +67,7 @@ impl RewardDistribution {
                     quality_bonus: if metrics.qualifies_for_quality_bonus() { reward_share / 20 } else { 0 },
                     uptime_bonus: if metrics.qualifies_for_uptime_bonus() { reward_share / 10 } else { 0 },
                     total_reward: reward_share,
-                    currency: "ZHTP".to_string(),
+                    currency: "SOV".to_string(),
                 };
                 
                 wallet.add_reward(&reward)?;
@@ -125,7 +125,7 @@ impl RewardDistribution {
                     quality_bonus: if work.connection_quality > 0.9 { reward_share / 10 } else { 0 },
                     uptime_bonus: (work.uptime_hours * reward_share) / participant_value,
                     total_reward: reward_share,
-                    currency: "ZHTP".to_string(),
+                    currency: "SOV".to_string(),
                 };
                 
                 wallet.add_reward(&reward)?;
@@ -173,7 +173,7 @@ impl RewardDistribution {
                     quality_bonus: 0,
                     uptime_bonus: 0,
                     total_reward: reward_per_validator,
-                    currency: "ZHTP".to_string(),
+                    currency: "SOV".to_string(),
                 };
                 
                 validator.add_reward(&reward)?;

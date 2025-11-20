@@ -116,7 +116,7 @@ mod benchmarks {
                 quality_bonus: (i % 25) as u64,
                 uptime_bonus: (i % 25) as u64,
                 total_reward: (i % 400) as u64,
-                currency: "ZHTP".to_string(),
+                currency: "SOV".to_string(),
             };
             let _ = wallet.add_reward(&reward);
         }

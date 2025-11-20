@@ -35,8 +35,8 @@ pub fn calculate_price_adjustment(supply: u64, demand: u64) -> f64 {
 /// Get pricing for infrastructure services
 pub fn get_infrastructure_pricing() -> (u64, u64, u64) {
     (
-        1,   // 1 ZHTP per MB routing
-        10,  // 10 ZHTP per GB storage  
-        100, // 100 ZHTP per GB bandwidth
+        1,   // 1 SOV per MB routing
+        10,  // 10 SOV per GB storage  
+        100, // 100 SOV per GB bandwidth
     )
 }

@@ -20,7 +20,7 @@ pub struct Transaction {
     pub from: [u8; 32],
     /// Recipient address
     pub to: [u8; 32],
-    /// Transaction amount in ZHTP tokens
+    /// Transaction amount in SOV tokens
     pub amount: u64,
     /// Network infrastructure fee
     pub base_fee: u64,

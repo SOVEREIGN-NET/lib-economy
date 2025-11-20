@@ -78,7 +78,7 @@ mod tests {
             quality_bonus: 25,
             uptime_bonus: 25,
             total_reward: 400,
-            currency: "ZHTP".to_string(),
+            currency: "SOV".to_string(),
         };
         
         wallet.add_reward(&reward).unwrap();

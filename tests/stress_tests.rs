@@ -191,7 +191,7 @@ mod stress_tests {
                             quality_bonus: (op % 25) as u64,
                             uptime_bonus: (op % 75) as u64,
                             total_reward: (op % 450) as u64 + 1,
-                            currency: "ZHTP".to_string(),
+                            currency: "SOV".to_string(),
                         };
                         wallets[wallet_idx].add_reward(&reward).unwrap();
                     }
@@ -366,7 +366,7 @@ mod stress_tests {
                 quality_bonus: 2,
                 uptime_bonus: 3,
                 total_reward: 40,
-                currency: "ZHTP".to_string(),
+                currency: "SOV".to_string(),
             };
             let _ = wallets[wallet_idx].add_reward(&reward);
         }

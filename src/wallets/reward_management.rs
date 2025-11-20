@@ -615,7 +615,7 @@ impl MeshDiscoveryRewards {
         };
 
         // Discovery contribution bonus
-        let discovery_bonus = self.discovery_stats.peers_discovered as u64 * 10; // 10 ZHTP per peer discovered
+        let discovery_bonus = self.discovery_stats.peers_discovered as u64 * 10; // 10 SOV per peer discovered
 
         let total_reward = routing_reward + quality_bonus + discovery_bonus;
 
@@ -626,7 +626,7 @@ impl MeshDiscoveryRewards {
             quality_bonus,
             uptime_bonus: discovery_bonus,
             total_reward,
-            currency: "ZHTP".to_string(),
+            currency: "SOV".to_string(),
         })
     }
 

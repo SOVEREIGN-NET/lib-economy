@@ -7,7 +7,6 @@ pub mod economic_model;
 pub mod token_reward;
 pub mod fee_calculation;
 pub mod parameter_adjustment;
-pub mod supply_management;
 pub mod anti_speculation;
 pub mod reward_adjustments;
 
@@ -15,7 +14,6 @@ pub use economic_model::*;
 pub use token_reward::*;
 pub use fee_calculation::*;
 pub use parameter_adjustment::*;
-pub use supply_management::*;
 pub use anti_speculation::*;
 pub use reward_adjustments::*;
 
@@ -77,7 +75,7 @@ mod tests {
         // Bonuses should be present for high quality/uptime
         assert!(reward.quality_bonus > 0);
         assert!(reward.uptime_bonus > 0);
-        assert_eq!(reward.currency, "ZHTP");
+        assert_eq!(reward.currency, "SOV");
     }
 
     #[test]
